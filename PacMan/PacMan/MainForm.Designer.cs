@@ -37,9 +37,9 @@
             // Player
             // 
             this.Player.ID = 0;
-            this.Player.Location = new System.Drawing.Point(124, 480);
+            this.Player.Location = new System.Drawing.Point(175, 482);
             this.Player.Name = "Player";
-            this.Player.Size = new System.Drawing.Size(40, 40);
+            this.Player.Size = new System.Drawing.Size(32, 32);
             this.Player.TabIndex = 0;
             // 
             // Maze

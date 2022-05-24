@@ -93,6 +93,16 @@ namespace PacMan.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Wall_Ghost {
+            get {
+                object obj = ResourceManager.GetObject("Wall_Ghost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Wall_Horizontal {
             get {
                 object obj = ResourceManager.GetObject("Wall_Horizontal", resourceCulture);
@@ -146,46 +156,6 @@ namespace PacMan.Properties {
         public static System.Drawing.Bitmap Wall_NorthWest {
             get {
                 object obj = ResourceManager.GetObject("Wall_NorthWest", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Wall_NotEast {
-            get {
-                object obj = ResourceManager.GetObject("Wall_NotEast", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Wall_NotNorth {
-            get {
-                object obj = ResourceManager.GetObject("Wall_NotNorth", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Wall_NotSouth {
-            get {
-                object obj = ResourceManager.GetObject("Wall_NotSouth", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Wall_NotWest {
-            get {
-                object obj = ResourceManager.GetObject("Wall_NotWest", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

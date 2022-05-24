@@ -127,6 +127,9 @@
   <data name="Wall_East" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\wall_east.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Wall_Ghost" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\wall_ghost.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Wall_Horizontal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\wall_horizontal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -144,18 +147,6 @@
   </data>
   <data name="Wall_NorthWest" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\wall_northwest.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Wall_NotEast" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\wall_noteast.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Wall_NotNorth" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\wall_notnorth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Wall_NotSouth" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\wall_notsouth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Wall_NotWest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\wall_notwest.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Wall_South" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\wall_south.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
