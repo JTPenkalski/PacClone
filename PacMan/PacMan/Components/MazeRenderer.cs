@@ -6,7 +6,7 @@ namespace PacMan.Components;
 
 public class MazeRenderer : Renderer
 {
-    protected static readonly ISet<MazeObject> VALID_WALLS = new HashSet<MazeObject>() { MazeObject.WALL, MazeObject.GHOST_WALL };
+    protected static readonly ISet<MazeObject> IMAGE_MASK_VALID_WALLS = new HashSet<MazeObject>() { MazeObject.WALL, MazeObject.GHOST_WALL };
     protected static readonly IDictionary<int, int> IMAGE_MASK_REDUNDANCIES = new Dictionary<int, int>()
     {
         { 0, 47 },
@@ -165,15 +165,15 @@ public class MazeRenderer : Renderer
 
     protected virtual Image GetMazeCellWallImage(int x, int y)
     {
-        int north = y - 1 >= 0 && VALID_WALLS.Contains(Maze[x, y - 1]) ? 1 : 0;
-        int east = x + 1 < Maze.WIDTH && VALID_WALLS.Contains(Maze[x + 1, y]) ? 1 : 0;
-        int south = y + 1 < Maze.HEIGHT && VALID_WALLS.Contains(Maze[x, y + 1]) ? 1 : 0;
-        int west = x - 1 >= 0 && VALID_WALLS.Contains(Maze[x - 1, y]) ? 1 : 0;
+        int north = y - 1 >= 0 && IMAGE_MASK_VALID_WALLS.Contains(Maze[x, y - 1]) ? 1 : 0;
+        int east = x + 1 < Maze.WIDTH && IMAGE_MASK_VALID_WALLS.Contains(Maze[x + 1, y]) ? 1 : 0;
+        int south = y + 1 < Maze.HEIGHT && IMAGE_MASK_VALID_WALLS.Contains(Maze[x, y + 1]) ? 1 : 0;
+        int west = x - 1 >= 0 && IMAGE_MASK_VALID_WALLS.Contains(Maze[x - 1, y]) ? 1 : 0;
 
-        int northWest = north == 1 && west == 1 && (x - 1 >= 0 && y - 1 >= 0) && VALID_WALLS.Contains(Maze[x - 1, y - 1]) ? 1 : 0;
-        int northEast = north == 1 && east == 1 && (x + 1 < Maze.WIDTH && y - 1 >= 0) && VALID_WALLS.Contains(Maze[x + 1, y - 1]) ? 1 : 0;
-        int southWest = south == 1 && west == 1 && (x - 1 >= 0 && y + 1 < Maze.HEIGHT) && VALID_WALLS.Contains(Maze[x - 1, y + 1]) ? 1 : 0;
-        int southEast = south == 1 && east == 1 && (x + 1 < Maze.WIDTH && y + 1 < Maze.HEIGHT) && VALID_WALLS.Contains(Maze[x + 1, y + 1]) ? 1 : 0;
+        int northWest = north == 1 && west == 1 && (x - 1 >= 0 && y - 1 >= 0) && IMAGE_MASK_VALID_WALLS.Contains(Maze[x - 1, y - 1]) ? 1 : 0;
+        int northEast = north == 1 && east == 1 && (x + 1 < Maze.WIDTH && y - 1 >= 0) && IMAGE_MASK_VALID_WALLS.Contains(Maze[x + 1, y - 1]) ? 1 : 0;
+        int southWest = south == 1 && west == 1 && (x - 1 >= 0 && y + 1 < Maze.HEIGHT) && IMAGE_MASK_VALID_WALLS.Contains(Maze[x - 1, y + 1]) ? 1 : 0;
+        int southEast = south == 1 && east == 1 && (x + 1 < Maze.WIDTH && y + 1 < Maze.HEIGHT) && IMAGE_MASK_VALID_WALLS.Contains(Maze[x + 1, y + 1]) ? 1 : 0;
 
         int rawIndex = northWest + 2 * north + 4 * northEast + 8 * west + 16 * east + 32 * southWest + 64 * south + 128 * southEast;
         int index = IMAGE_MASK_REDUNDANCIES.ContainsKey(rawIndex) ? IMAGE_MASK_REDUNDANCIES[rawIndex] : rawIndex;

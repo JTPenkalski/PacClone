@@ -2,9 +2,9 @@
 
 public class Collision
 {
-    public Rigidbody Other { get; init; }
+    public Collider Other { get; init; }
 
-    public Collision(Rigidbody other)
+    public Collision(Collider other)
     {
         Other = other;
     }

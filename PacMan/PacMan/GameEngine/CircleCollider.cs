@@ -12,7 +12,7 @@ public class CircleCollider : Collider
 
         if ((other.Position - Position).SquareMagnitude <= detectionRadius * detectionRadius)
         {
-            yield return new Collision(other.AttachedRigidbody);
+            yield return new Collision(other);
         }
     }
 }

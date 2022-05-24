@@ -31,22 +31,23 @@
             this.Player = new PacMan.GameObjects.Player();
             this.Maze = new PacMan.GameObjects.Maze();
             this.MazeContainer = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.MazeContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // Player
             // 
             this.Player.ID = 0;
-            this.Player.Location = new System.Drawing.Point(175, 482);
+            this.Player.Location = new System.Drawing.Point(280, 478);
             this.Player.Name = "Player";
-            this.Player.Size = new System.Drawing.Size(32, 32);
+            this.Player.Size = new System.Drawing.Size(31, 31);
             this.Player.TabIndex = 0;
             // 
             // Maze
             // 
             this.Maze.Dock = System.Windows.Forms.DockStyle.Left;
             this.Maze.ID = 1;
-            this.Maze.Location = new System.Drawing.Point(5, 5);
+            this.Maze.Location = new System.Drawing.Point(0, 0);
             this.Maze.Margin = new System.Windows.Forms.Padding(0);
             this.Maze.Name = "Maze";
             this.Maze.Size = new System.Drawing.Size(588, 671);
@@ -55,15 +56,23 @@
             // MazeContainer
             // 
             this.MazeContainer.BackColor = System.Drawing.Color.Transparent;
+            this.MazeContainer.Controls.Add(this.label1);
             this.MazeContainer.Controls.Add(this.Player);
             this.MazeContainer.Controls.Add(this.Maze);
             this.MazeContainer.Dock = System.Windows.Forms.DockStyle.Left;
-            this.MazeContainer.Location = new System.Drawing.Point(0, 0);
+            this.MazeContainer.Location = new System.Drawing.Point(5, 5);
             this.MazeContainer.Margin = new System.Windows.Forms.Padding(0);
             this.MazeContainer.Name = "MazeContainer";
-            this.MazeContainer.Padding = new System.Windows.Forms.Padding(5);
-            this.MazeContainer.Size = new System.Drawing.Size(640, 681);
+            this.MazeContainer.Size = new System.Drawing.Size(640, 671);
             this.MazeContainer.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Lime;
+            this.label1.Location = new System.Drawing.Point(283, 483);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(21, 21);
+            this.label1.TabIndex = 3;
             // 
             // MainForm
             // 
@@ -73,7 +82,10 @@
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.MazeContainer);
             this.ForeColor = System.Drawing.Color.White;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
+            this.Padding = new System.Windows.Forms.Padding(5);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pac-Man";
             this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
@@ -87,5 +99,6 @@
         private GameObjects.Player Player;
         private GameObjects.Maze Maze;
         private Panel MazeContainer;
+        private Label label1;
     }
 }

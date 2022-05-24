@@ -5,15 +5,20 @@ namespace PacMan.GameObjects;
 
 public class Player : GameObject
 {
+    public const float BASE_SPEED = 0.125f;
+
     public Player() : base()
     {
         Renderer renderer = AddComponent<Renderer>();
 
-        CircleCollider collider = AddComponent<CircleCollider>();
-        collider.Radius = Size.Width * 0.5f;
+        BoxCollider collider = AddComponent<BoxCollider>();
+        collider.Size = new Vector2(21, 21);
+        collider.Offset = new Vector2(5, 5);
 
         Rigidbody rigidbody = AddComponent<Rigidbody>();
         rigidbody.Collider = collider;
-        rigidbody.Velocity = new(0.125f, 0f);
+
+        InputReceiver inputReceiver = AddComponent<InputReceiver>();
+        inputReceiver.Speed = BASE_SPEED;
     }
 }

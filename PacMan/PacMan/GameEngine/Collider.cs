@@ -2,7 +2,8 @@
 
 public abstract class Collider : Component
 {
-    public Rectangle Bounds => new((Vector2)GameObject.Location + Offset, GameObject.Size);
+    public virtual Rectangle Bounds => new(Position, GameObject.Size);
+
     private Rigidbody? _attachedRigidbody;
     public Rigidbody AttachedRigidbody
     {
@@ -15,8 +16,9 @@ public abstract class Collider : Component
             return _attachedRigidbody;
         }
     }
-    public Vector2 Position => GameObject.Transform.Position + (Vector2)(GameObject.Size / 2) + Offset;
     public Vector2 Offset { get; set; }
+    public Vector2 Origin { get; set; }
+    public Vector2 Position => Origin + Offset;
 
     public Collider(GameObject gameObject) : base(gameObject) { }
 

@@ -6,7 +6,6 @@ namespace PacMan.GameObjects;
 
 public class Maze : GameObject
 {
-    public const float ASPECT_RATIO = 0.876f;
     public const int HEIGHT = 31;
     public const int WIDTH = 28;
 
@@ -25,13 +24,11 @@ public class Maze : GameObject
 
         MazeRenderer renderer = AddComponent<MazeRenderer>();
 
-        BoxCollider collider = AddComponent<BoxCollider>();
+        MazeCollider collider = AddComponent<MazeCollider>();
 
         Rigidbody rigidbody = AddComponent<Rigidbody>();
         rigidbody.Collider = collider;
-
-        AspectRatioFitter aspectRatioFitter = AddComponent<AspectRatioFitter>();
-        aspectRatioFitter.AspectRatio = ASPECT_RATIO;
+        rigidbody.Static = true;
 
         GameManager.LevelChanged += SetMaze;
     }

@@ -2,6 +2,7 @@
 
 public class Rigidbody : Component
 {
+    public bool Static { get; set; }
     public Collider? Collider { get; set; }
     public Vector2 Velocity { get; set; }
 
@@ -11,29 +12,36 @@ public class Rigidbody : Component
 
     public override void FixedUpdate()
     {
-        ResolveCollisions();
-
-        if (collisions.Count > 0)
+        if (!Static)
         {
-            Velocity = Vector2.ZERO;
-        }
+            if (Collider != null)
+            {
+                ResolveCollisions();
 
-        GameObject.Transform.Translate(Time.FixedDeltaTime * Velocity);
+                if (collisions.Count > 0)
+                {
+                    Velocity = Vector2.ZERO;
+                }
+            }
+
+            GameObject.Transform.Translate(Time.FixedDeltaTime * Velocity);
+        }
     }
 
     protected virtual void ResolveCollisions()
     {
-        collisions.Clear();
-
         if (Collider != null)
         {
-            List<Collision> collisions = new();
+            collisions.Clear();
+
+            Collider.Origin = GameObject.Transform.Position;
 
             foreach (GameObject gameObject in Game.GameObjects)
             {
                 if (gameObject != GameObject && gameObject.GetComponent<Rigidbody>() is Rigidbody other && other.Collider != null)
                 {
-                    collisions.AddRange(other.Collider.GetCollisions(Collider));
+                    foreach (Collision c in other.Collider.GetCollisions(Collider))
+                        collisions.Add(c);
                 }
             }
         }
