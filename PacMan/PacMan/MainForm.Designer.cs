@@ -44,6 +44,7 @@
             // 
             // Maze
             // 
+            this.Maze.Dock = System.Windows.Forms.DockStyle.Left;
             this.Maze.ID = 1;
             this.Maze.Location = new System.Drawing.Point(5, 5);
             this.Maze.Margin = new System.Windows.Forms.Padding(0);
