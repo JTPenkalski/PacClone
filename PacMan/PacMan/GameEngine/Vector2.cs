@@ -29,6 +29,10 @@ public readonly struct Vector2 : IEquatable<Vector2>
 
     public static implicit operator Vector2(Size a) => new(a.Width, a.Height);
 
+    public static implicit operator Vector2(Vector2Int a) => new(a.X, a.Y);
+
+    public static implicit operator Vector2Int(Vector2 a) => new((int)a.X, (int)a.Y);
+
     public static Vector2 operator *(float a, Vector2 b) => new(a * b.X, a * b.Y);
 
     public static Vector2 operator /(float a, Vector2 b) => new(a / b.X, a / b.Y);

@@ -14,6 +14,6 @@ public class Player : GameObject
 
         Rigidbody rigidbody = AddComponent<Rigidbody>();
         rigidbody.Collider = collider;
-        rigidbody.Velocity = new(0.5f, 0f);
+        rigidbody.Velocity = new(0.125f, 0f);
     }
 }

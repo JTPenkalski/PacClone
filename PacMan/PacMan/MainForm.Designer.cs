@@ -37,7 +37,7 @@
             // Player
             // 
             this.Player.ID = 0;
-            this.Player.Location = new System.Drawing.Point(285, 477);
+            this.Player.Location = new System.Drawing.Point(124, 480);
             this.Player.Name = "Player";
             this.Player.Size = new System.Drawing.Size(40, 40);
             this.Player.TabIndex = 0;
@@ -59,6 +59,7 @@
             this.MazeContainer.Controls.Add(this.Maze);
             this.MazeContainer.Dock = System.Windows.Forms.DockStyle.Left;
             this.MazeContainer.Location = new System.Drawing.Point(0, 0);
+            this.MazeContainer.Margin = new System.Windows.Forms.Padding(0);
             this.MazeContainer.Name = "MazeContainer";
             this.MazeContainer.Padding = new System.Windows.Forms.Padding(5);
             this.MazeContainer.Size = new System.Drawing.Size(640, 681);

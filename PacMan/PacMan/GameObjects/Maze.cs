@@ -10,6 +10,10 @@ public class Maze : GameObject
     public const int HEIGHT = 31;
     public const int WIDTH = 28;
 
+    public int CellWidth => Width / WIDTH;
+
+    public int CellHeight => Height / HEIGHT;
+
     public MazeObject this[int x, int y] => (MazeObject)contents[x, y];
 
     private readonly int[,] contents;
@@ -43,5 +47,10 @@ public class Maze : GameObject
                 contents[x, y] = int.Parse(values[y * WIDTH + x]);
             }
         }
+    }
+
+    public Vector2Int GetMazeCell(int x, int y)
+    {
+        return new Vector2Int(x / CellWidth, y / CellHeight);
     }
 }

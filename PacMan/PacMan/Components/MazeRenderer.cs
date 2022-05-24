@@ -11,50 +11,50 @@ public class MazeRenderer : Renderer
     {
         { 0, 47 },
         { 2, 1 },
-        { 8, 2 }, 
-        { 10, 3 }, 
-        { 11, 4 }, 
-        { 16, 5 }, 
-        { 18, 6 }, 
-        { 22, 7 }, 
-        { 24, 8 }, 
-        { 26, 9 }, 
+        { 8, 2 },
+        { 10, 3 },
+        { 11, 4 },
+        { 16, 5 },
+        { 18, 6 },
+        { 22, 7 },
+        { 24, 8 },
+        { 26, 9 },
         { 27, 10 },
-        { 30, 11 }, 
-        { 31, 12 }, 
-        { 64, 13 }, 
-        { 66, 14 }, 
-        { 72, 15 }, 
-        { 74, 16 }, 
+        { 30, 11 },
+        { 31, 12 },
+        { 64, 13 },
+        { 66, 14 },
+        { 72, 15 },
+        { 74, 16 },
         { 75, 17 },
-        { 80, 18 }, 
-        { 82, 19 }, 
-        { 86, 20 }, 
-        { 88, 21 }, 
+        { 80, 18 },
+        { 82, 19 },
+        { 86, 20 },
+        { 88, 21 },
         { 90, 22 },
-        { 91, 23 }, 
-        { 94, 24 }, 
-        { 95, 25 }, 
-        { 104, 26 }, 
-        { 106, 27 }, 
-        { 107, 28 }, 
-        { 120, 29 }, 
-        { 122, 30 }, 
-        { 123, 31 }, 
-        { 126, 32 }, 
-        { 127, 33 }, 
-        { 208, 34 }, 
-        { 210, 35 }, 
-        { 214, 36 }, 
-        { 216, 37 }, 
-        { 218, 38 }, 
-        { 219, 39 }, 
-        { 222, 40 }, 
-        { 223, 41 }, 
-        { 248, 42 }, 
-        { 250, 43 }, 
-        { 251, 44 }, 
-        { 254, 45 }, 
+        { 91, 23 },
+        { 94, 24 },
+        { 95, 25 },
+        { 104, 26 },
+        { 106, 27 },
+        { 107, 28 },
+        { 120, 29 },
+        { 122, 30 },
+        { 123, 31 },
+        { 126, 32 },
+        { 127, 33 },
+        { 208, 34 },
+        { 210, 35 },
+        { 214, 36 },
+        { 216, 37 },
+        { 218, 38 },
+        { 219, 39 },
+        { 222, 40 },
+        { 223, 41 },
+        { 248, 42 },
+        { 250, 43 },
+        { 251, 44 },
+        { 254, 45 },
         { 255, 46 }
     };
     protected static readonly IDictionary<int, Image> IMAGE_MASK = new Dictionary<int, Image>()
@@ -120,17 +120,30 @@ public class MazeRenderer : Renderer
 
         using BufferedGraphics buffer = graphicsContext.Allocate(e.Graphics, GameObject.ClientRectangle);
 
-        int cellSizeX = Maze.Width / Maze.WIDTH;
-        int cellSizeY = Maze.Height / Maze.HEIGHT;
-
-        for (int y = 0; y < Maze.HEIGHT; y++)
+        if (e.ClipRectangle.Width < Maze.Width && e.ClipRectangle.Height < Maze.Height)
         {
-            for (int x = 0; x < Maze.WIDTH; x++)
+            // Redraw specific cells
+            foreach (Rectangle r in GetInvalidatedMazeCells(e.ClipRectangle))
             {
-                if (Maze[x, y] != MazeObject.AIR)
+                if (Maze[r.X, r.Y] != MazeObject.AIR)
                 {
-                    using Brush brush = GetMazeCellBrush(x, y, cellSizeX, cellSizeY);
-                    buffer.Graphics.FillRectangle(brush, x * cellSizeX, y * cellSizeY, cellSizeX, cellSizeY);
+                    using Brush brush = GetMazeCellBrush(r.X, r.Y, Maze.CellWidth, Maze.CellHeight);
+                    buffer.Graphics.FillRectangle(brush, r.X * Maze.CellWidth, r.Y * Maze.CellHeight, Maze.CellWidth, Maze.CellHeight);
+                }
+            }
+        }
+        else
+        {
+            // Redraw the entire maze
+            for (int y = 0; y < Maze.HEIGHT; y++)
+            {
+                for (int x = 0; x < Maze.WIDTH; x++)
+                {
+                    if (Maze[x, y] != MazeObject.AIR)
+                    {
+                        using Brush brush = GetMazeCellBrush(x, y, Maze.CellWidth, Maze.CellHeight);
+                        buffer.Graphics.FillRectangle(brush, x * Maze.CellWidth, y * Maze.CellHeight, Maze.CellWidth, Maze.CellHeight);
+                    }
                 }
             }
         }
@@ -166,5 +179,35 @@ public class MazeRenderer : Renderer
         int index = IMAGE_MASK_REDUNDANCIES.ContainsKey(rawIndex) ? IMAGE_MASK_REDUNDANCIES[rawIndex] : rawIndex;
 
         return IMAGE_MASK[index];
+    }
+
+    protected virtual IEnumerable<Rectangle> GetInvalidatedMazeCells(Rectangle invalidatedRegion)
+    {
+        ISet<Rectangle> invalidatedCells = new HashSet<Rectangle>(4);
+
+        // Invalidate up to four cells at each corner of the invalidated region
+        if (invalidatedRegion.Left >= 0 && invalidatedRegion.Top >= 0)
+            invalidatedCells.Add(new Rectangle(Maze.GetMazeCell(invalidatedRegion.Left, invalidatedRegion.Top), new Size(Maze.CellWidth, Maze.CellHeight)));
+
+        if (invalidatedRegion.Right < Maze.Width && invalidatedRegion.Top >= 0)
+            invalidatedCells.Add(new Rectangle(Maze.GetMazeCell(invalidatedRegion.Right, invalidatedRegion.Top), new Size(Maze.CellWidth, Maze.CellHeight)));
+
+        if (invalidatedRegion.Left >= 0 && invalidatedRegion.Bottom < Maze.Height)
+            invalidatedCells.Add(new Rectangle(Maze.GetMazeCell(invalidatedRegion.Left, invalidatedRegion.Bottom), new Size(Maze.CellWidth, Maze.CellHeight)));
+
+        if (invalidatedRegion.Right < Maze.Width && invalidatedRegion.Bottom < Maze.Height)
+            invalidatedCells.Add(new Rectangle(Maze.GetMazeCell(invalidatedRegion.Right, invalidatedRegion.Bottom), new Size(Maze.CellWidth, Maze.CellHeight)));
+
+        // Invalidate any remaining cells potentially within the four corners
+        for (int x = invalidatedRegion.Left; x < invalidatedRegion.Right; x += Maze.CellWidth)
+        {
+            for (int y = invalidatedRegion.Top; y < invalidatedRegion.Bottom; y += Maze.CellHeight)
+            {
+                if (x >= 0 && x < Maze.Width && y >= 0 && y < Maze.Height)
+                    invalidatedCells.Add(new Rectangle(Maze.GetMazeCell(x, y), new Size(Maze.CellWidth, Maze.CellHeight)));
+            }
+        }
+
+        return invalidatedCells;
     }
 }
