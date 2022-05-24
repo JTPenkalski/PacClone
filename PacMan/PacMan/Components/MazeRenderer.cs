@@ -6,8 +6,8 @@ namespace PacMan.Components;
 
 public class MazeRenderer : Renderer
 {
-    private static readonly ISet<MazeObject> VALID_WALLS = new HashSet<MazeObject>() { MazeObject.WALL, MazeObject.GHOST_WALL };
-    private static readonly IDictionary<int, int> IMAGE_MASK_REDUNDANCIES = new Dictionary<int, int>()
+    protected static readonly ISet<MazeObject> VALID_WALLS = new HashSet<MazeObject>() { MazeObject.WALL, MazeObject.GHOST_WALL };
+    protected static readonly IDictionary<int, int> IMAGE_MASK_REDUNDANCIES = new Dictionary<int, int>()
     {
         { 0, 47 },
         { 2, 1 },
@@ -57,7 +57,7 @@ public class MazeRenderer : Renderer
         { 254, 45 }, 
         { 255, 46 }
     };
-    private static readonly IDictionary<int, Image> IMAGE_MASK = new Dictionary<int, Image>()
+    protected static readonly IDictionary<int, Image> IMAGE_MASK = new Dictionary<int, Image>()
     {
         { 0, Resources.Wall_Individual },
         { 1, Resources.Wall_North },
@@ -68,35 +68,35 @@ public class MazeRenderer : Renderer
         { 6, Resources.Wall_NorthEast },
         { 7, Resources.Wall_NorthEast },
         { 8, Resources.Wall_Horizontal },
-        { 9, Resources.Wall_Horizontal },
+        { 9, Resources.Wall_NotSouth },
         { 10, Resources.Wall_Horizontal },
         { 11, Resources.Wall_Horizontal },
         { 12, Resources.Wall_Horizontal },
         { 13, Resources.Wall_South },
         { 14, Resources.Wall_Vertical },
         { 15, Resources.Wall_SouthWest },
-        { 16, Resources.Wall_Vertical },
-        { 17, Resources.Wall_Vertical },
+        { 16, Resources.Wall_NotEast },
+        { 17, Resources.Wall_SouthWest },
         { 18, Resources.Wall_SouthEast },
-        { 19, Resources.Wall_Vertical },
-        { 20, Resources.Wall_Vertical },
-        { 21, Resources.Wall_Horizontal },
-        { 22, Resources.Wall_Individual },
+        { 19, Resources.Wall_NotWest },
+        { 20, Resources.Wall_SouthEast },
+        { 21, Resources.Wall_NotNorth },
+        { 22, Resources.Wall_Junction },
         { 23, Resources.Wall_Individual },
         { 24, Resources.Wall_Horizontal },
         { 25, Resources.Wall_SouthWest },
         { 26, Resources.Wall_SouthWest },
-        { 27, Resources.Wall_Vertical },
+        { 27, Resources.Wall_NorthWest },
         { 28, Resources.Wall_Vertical },
-        { 29, Resources.Wall_Horizontal },
+        { 29, Resources.Wall_SouthEast },
         { 30, Resources.Wall_Vertical },
         { 31, Resources.Wall_NorthEast },
         { 32, Resources.Wall_SouthEast },
         { 33, Resources.Wall_SouthEast },
         { 34, Resources.Wall_SouthEast },
-        { 35, Resources.Wall_Vertical },
+        { 35, Resources.Wall_NorthEast },
         { 36, Resources.Wall_Vertical },
-        { 37, Resources.Wall_Horizontal },
+        { 37, Resources.Wall_SouthWest },
         { 38, Resources.Wall_Individual },
         { 39, Resources.Wall_Vertical },
         { 40, Resources.Wall_Individual },
