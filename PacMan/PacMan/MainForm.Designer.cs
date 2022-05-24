@@ -37,9 +37,9 @@
             // Player
             // 
             this.Player.ID = 0;
-            this.Player.Location = new System.Drawing.Point(999, 300);
+            this.Player.Location = new System.Drawing.Point(285, 477);
             this.Player.Name = "Player";
-            this.Player.Size = new System.Drawing.Size(106, 107);
+            this.Player.Size = new System.Drawing.Size(40, 40);
             this.Player.TabIndex = 0;
             // 
             // Maze
@@ -55,6 +55,7 @@
             // MazeContainer
             // 
             this.MazeContainer.BackColor = System.Drawing.Color.Transparent;
+            this.MazeContainer.Controls.Add(this.Player);
             this.MazeContainer.Controls.Add(this.Maze);
             this.MazeContainer.Dock = System.Windows.Forms.DockStyle.Left;
             this.MazeContainer.Location = new System.Drawing.Point(0, 0);
@@ -70,7 +71,6 @@
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.MazeContainer);
-            this.Controls.Add(this.Player);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

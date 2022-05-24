@@ -143,8 +143,8 @@ public class MazeRenderer : Renderer
         return Maze[x, y] switch
         {
             MazeObject.WALL => new TextureBrush(ResizeImage(GetMazeCellWallImage(x, y), sizeX, sizeY)),
-            MazeObject.PELLET => new SolidBrush(Color.White),
-            MazeObject.POWER_PELLET => new SolidBrush(Color.DarkGray),
+            MazeObject.PELLET => new TextureBrush(ResizeImage(Resources.Pellet, sizeX, sizeY)),
+            MazeObject.POWER_PELLET => new TextureBrush(ResizeImage(Resources.PowerPellet, sizeX, sizeY)),
             MazeObject.GHOST_WALL => new SolidBrush(Color.Purple),
             _ => new SolidBrush(Color.Magenta)
         };
