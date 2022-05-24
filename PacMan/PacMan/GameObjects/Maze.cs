@@ -1,15 +1,16 @@
 ﻿using GameEngine;
 using PacMan.Components;
+using PacMan.Mazes;
 
 namespace PacMan.GameObjects;
 
 public class Maze : GameObject
 {
-    public const float ASPECT_RATIO = 0.861f;
+    public const float ASPECT_RATIO = 0.876f;
     public const int HEIGHT = 31;
     public const int WIDTH = 28;
 
-    public int this[int x, int y] => contents[x, y];
+    public MazeObject this[int x, int y] => (MazeObject)contents[x, y];
 
     private readonly int[,] contents;
 

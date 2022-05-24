@@ -53,10 +53,10 @@ public class Renderer : Component
             graphics.SmoothingMode = SmoothingMode.HighQuality;
             graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-            using ImageAttributes wrapMode = new();
-            wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+            using ImageAttributes attributes = new();
+            attributes.SetWrapMode(WrapMode.TileFlipXY);
 
-            graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+            graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
         }
 
         return resizedImage;

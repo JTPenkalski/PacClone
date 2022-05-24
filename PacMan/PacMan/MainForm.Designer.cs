@@ -44,12 +44,11 @@
             // 
             // Maze
             // 
-            this.Maze.Dock = System.Windows.Forms.DockStyle.Left;
             this.Maze.ID = 1;
             this.Maze.Location = new System.Drawing.Point(5, 5);
             this.Maze.Margin = new System.Windows.Forms.Padding(0);
             this.Maze.Name = "Maze";
-            this.Maze.Size = new System.Drawing.Size(578, 671);
+            this.Maze.Size = new System.Drawing.Size(588, 671);
             this.Maze.TabIndex = 1;
             // 
             // MazeContainer
