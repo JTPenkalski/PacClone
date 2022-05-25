@@ -7,6 +7,7 @@ namespace PacMan.GameObjects;
 public class Maze : GameObject
 {
     public const int HEIGHT = 31;
+    public const int PELLET_VALUE = 100;
     public const int WIDTH = 28;
 
     public int CellWidth => Width / WIDTH;
@@ -31,6 +32,12 @@ public class Maze : GameObject
         rigidbody.Static = true;
 
         GameManager.LevelChanged += SetMaze;
+    }
+
+    public void ClearCell(int cellX, int cellY)
+    {
+        contents[cellX, cellY] = (int)MazeObject.AIR;
+        Invalidate(new Rectangle(cellX * CellWidth, cellY * CellHeight, CellWidth, CellHeight));
     }
 
     public void SetMaze(string mazeName)

@@ -31,7 +31,7 @@ public class BoxCollider : Collider
     {
         if (Bounds.IntersectsWith(other.Bounds))
         {
-            yield return new Collision(other);
+            yield return new Collision(this);
         }
     }
 }
