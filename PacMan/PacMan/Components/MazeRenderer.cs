@@ -125,7 +125,7 @@ public class MazeRenderer : Renderer
             // Redraw specific cells
             foreach (Rectangle r in GetInvalidatedMazeCells(e.ClipRectangle))
             {
-                if (Maze[r.X, r.Y] != MazeObject.AIR)
+                if (Maze[r.X, r.Y].Content != MazeObject.AIR)
                 {
                     using Brush brush = GetMazeCellBrush(r.X, r.Y, Maze.CellWidth, Maze.CellHeight);
                     buffer.Graphics.FillRectangle(brush, r.X * Maze.CellWidth, r.Y * Maze.CellHeight, Maze.CellWidth, Maze.CellHeight);
@@ -139,7 +139,7 @@ public class MazeRenderer : Renderer
             {
                 for (int x = 0; x < Maze.WIDTH; x++)
                 {
-                    if (Maze[x, y] != MazeObject.AIR)
+                    if (Maze[x, y].Content != MazeObject.AIR)
                     {
                         using Brush brush = GetMazeCellBrush(x, y, Maze.CellWidth, Maze.CellHeight);
                         buffer.Graphics.FillRectangle(brush, x * Maze.CellWidth, y * Maze.CellHeight, Maze.CellWidth, Maze.CellHeight);
@@ -153,7 +153,7 @@ public class MazeRenderer : Renderer
 
     protected virtual Brush GetMazeCellBrush(int x, int y, int sizeX, int sizeY)
     {
-        return Maze[x, y] switch
+        return Maze[x, y].Content switch
         {
             MazeObject.WALL => new TextureBrush(ResizeImage(GetMazeCellWallImage(x, y), sizeX, sizeY)),
             MazeObject.PELLET => new TextureBrush(ResizeImage(Resources.Pellet, sizeX, sizeY)),
@@ -165,15 +165,15 @@ public class MazeRenderer : Renderer
 
     protected virtual Image GetMazeCellWallImage(int x, int y)
     {
-        int north = y - 1 >= 0 && IMAGE_MASK_VALID_WALLS.Contains(Maze[x, y - 1]) ? 1 : 0;
-        int east = x + 1 < Maze.WIDTH && IMAGE_MASK_VALID_WALLS.Contains(Maze[x + 1, y]) ? 1 : 0;
-        int south = y + 1 < Maze.HEIGHT && IMAGE_MASK_VALID_WALLS.Contains(Maze[x, y + 1]) ? 1 : 0;
-        int west = x - 1 >= 0 && IMAGE_MASK_VALID_WALLS.Contains(Maze[x - 1, y]) ? 1 : 0;
+        int north = y - 1 >= 0 && IMAGE_MASK_VALID_WALLS.Contains(Maze[x, y - 1].Content) ? 1 : 0;
+        int east = x + 1 < Maze.WIDTH && IMAGE_MASK_VALID_WALLS.Contains(Maze[x + 1, y].Content) ? 1 : 0;
+        int south = y + 1 < Maze.HEIGHT && IMAGE_MASK_VALID_WALLS.Contains(Maze[x, y + 1].Content) ? 1 : 0;
+        int west = x - 1 >= 0 && IMAGE_MASK_VALID_WALLS.Contains(Maze[x - 1, y].Content) ? 1 : 0;
 
-        int northWest = north == 1 && west == 1 && (x - 1 >= 0 && y - 1 >= 0) && IMAGE_MASK_VALID_WALLS.Contains(Maze[x - 1, y - 1]) ? 1 : 0;
-        int northEast = north == 1 && east == 1 && (x + 1 < Maze.WIDTH && y - 1 >= 0) && IMAGE_MASK_VALID_WALLS.Contains(Maze[x + 1, y - 1]) ? 1 : 0;
-        int southWest = south == 1 && west == 1 && (x - 1 >= 0 && y + 1 < Maze.HEIGHT) && IMAGE_MASK_VALID_WALLS.Contains(Maze[x - 1, y + 1]) ? 1 : 0;
-        int southEast = south == 1 && east == 1 && (x + 1 < Maze.WIDTH && y + 1 < Maze.HEIGHT) && IMAGE_MASK_VALID_WALLS.Contains(Maze[x + 1, y + 1]) ? 1 : 0;
+        int northWest = north == 1 && west == 1 && (x - 1 >= 0 && y - 1 >= 0) && IMAGE_MASK_VALID_WALLS.Contains(Maze[x - 1, y - 1].Content) ? 1 : 0;
+        int northEast = north == 1 && east == 1 && (x + 1 < Maze.WIDTH && y - 1 >= 0) && IMAGE_MASK_VALID_WALLS.Contains(Maze[x + 1, y - 1].Content) ? 1 : 0;
+        int southWest = south == 1 && west == 1 && (x - 1 >= 0 && y + 1 < Maze.HEIGHT) && IMAGE_MASK_VALID_WALLS.Contains(Maze[x - 1, y + 1].Content) ? 1 : 0;
+        int southEast = south == 1 && east == 1 && (x + 1 < Maze.WIDTH && y + 1 < Maze.HEIGHT) && IMAGE_MASK_VALID_WALLS.Contains(Maze[x + 1, y + 1].Content) ? 1 : 0;
 
         int rawIndex = northWest + 2 * north + 4 * northEast + 8 * west + 16 * east + 32 * southWest + 64 * south + 128 * southEast;
         int index = IMAGE_MASK_REDUNDANCIES.ContainsKey(rawIndex) ? IMAGE_MASK_REDUNDANCIES[rawIndex] : rawIndex;

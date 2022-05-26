@@ -14,12 +14,12 @@ public class Transform : Component
 
     public override void Initialize()
     {
-        Position = GameObject.Location;
+        Position = new Vector2(GameObject.Location.X, GameObject.Location.Y);
     }
 
     public override void Update()
     {
-        GameObject.Location = Position;
+        GameObject.Location = new Point((int)Position.X, (int)Position.Y);
     }
 
     public void Translate(Vector2 displacement) => Position += displacement;

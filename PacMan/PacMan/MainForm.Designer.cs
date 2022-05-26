@@ -38,48 +38,47 @@
             // Player
             // 
             this.Player.ID = 0;
-            this.Player.Location = new System.Drawing.Point(280, 478);
+            this.Player.Location = new System.Drawing.Point(424, 728);
             this.Player.Name = "Player";
-            this.Player.Size = new System.Drawing.Size(31, 31);
+            this.Player.Size = new System.Drawing.Size(48, 48);
             this.Player.TabIndex = 0;
             // 
             // Maze
             // 
-            this.Maze.Dock = System.Windows.Forms.DockStyle.Left;
             this.Maze.ID = 1;
             this.Maze.Location = new System.Drawing.Point(0, 0);
             this.Maze.Margin = new System.Windows.Forms.Padding(0);
             this.Maze.Name = "Maze";
-            this.Maze.Size = new System.Drawing.Size(588, 671);
+            this.Maze.Size = new System.Drawing.Size(896, 992);
             this.Maze.TabIndex = 1;
             // 
             // MazeContainer
             // 
             this.MazeContainer.BackColor = System.Drawing.Color.Transparent;
-            this.MazeContainer.Controls.Add(this.label1);
             this.MazeContainer.Controls.Add(this.Player);
             this.MazeContainer.Controls.Add(this.Maze);
             this.MazeContainer.Dock = System.Windows.Forms.DockStyle.Left;
             this.MazeContainer.Location = new System.Drawing.Point(5, 5);
             this.MazeContainer.Margin = new System.Windows.Forms.Padding(0);
             this.MazeContainer.Name = "MazeContainer";
-            this.MazeContainer.Size = new System.Drawing.Size(640, 671);
+            this.MazeContainer.Size = new System.Drawing.Size(944, 1001);
             this.MazeContainer.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.BackColor = System.Drawing.Color.Lime;
-            this.label1.Location = new System.Drawing.Point(283, 483);
+            this.label1.Location = new System.Drawing.Point(952, 659);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(21, 21);
-            this.label1.TabIndex = 3;
+            this.label1.Size = new System.Drawing.Size(15, 15);
+            this.label1.TabIndex = 2;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.ClientSize = new System.Drawing.Size(1484, 1011);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.MazeContainer);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

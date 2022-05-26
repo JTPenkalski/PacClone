@@ -1,43 +1,36 @@
-﻿using GameEngine;
+﻿using Box2D.NetStandard.Dynamics.Bodies;
+using GameEngine;
 using PacMan.Components;
 
 namespace PacMan.GameObjects;
 
 public class Player : GameObject
 {
-    public const float BASE_SPEED = 0.125f;
-    public const int COLLIDER_OFFSET = 6;
-    public const int COLLIDER_SIZE = 19;
-
-    private int score;
+    protected int score;
+    protected readonly Renderer renderer;
+    protected readonly CircleCollider collider;
+    protected readonly Rigidbody rigidbody;
+    protected readonly KeyboardController keyboardController;
 
     public Player() : base()
     {
-        Renderer renderer = AddComponent<Renderer>();
-
-        BoxCollider collider = AddComponent<BoxCollider>();
-        collider.Size = new Vector2(COLLIDER_SIZE, COLLIDER_SIZE);
-        collider.Offset = new Vector2(COLLIDER_OFFSET, COLLIDER_OFFSET);
-
-        Rigidbody rigidbody = AddComponent<Rigidbody>();
-        rigidbody.Collider = collider;
-        rigidbody.Trigger += OnTrigger;
-
-        InputReceiver inputReceiver = AddComponent<InputReceiver>();
-        inputReceiver.Speed = BASE_SPEED;
+        renderer = AddComponent<Renderer>();
+        rigidbody = AddComponent<Rigidbody>();
+        collider = AddComponent<CircleCollider>();
+        keyboardController = AddComponent<KeyboardController>();
     }
 
-    private void OnTrigger(IEnumerable<Collision> triggers)
+    protected override void InitLayout()
     {
-        foreach (Collision collision in triggers)
-        {
-            if (collision.Other.GameObject is Maze maze)
-            {
-                score += Maze.PELLET_VALUE;
+        base.InitLayout();
 
-                Vector2Int mazeCell = maze.GetMazeCell((int)(Transform.Position.X + Size.Width / 2), (int)(Transform.Position.Y + Size.Height / 2));
-                maze.ClearCell(mazeCell.X, mazeCell.Y);
-            }
-        }
+        collider.Radius = 15;
+
+        rigidbody.Body.SetGravityScale(0f);
+        rigidbody.Body.SetLinearDampling(0f);
+        rigidbody.Body.SetType(BodyType.Dynamic);
+        rigidbody.Collider = collider;
+
+        keyboardController.MoveSpeed = 0.15f;
     }
 }

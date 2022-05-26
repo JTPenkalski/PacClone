@@ -1,4 +1,5 @@
-﻿using GameEngine;
+﻿using Box2D.NetStandard.Dynamics.Bodies;
+using GameEngine;
 using PacMan.Components;
 using PacMan.Mazes;
 
@@ -14,24 +15,31 @@ public class Maze : GameObject
 
     public int CellHeight => Height / HEIGHT;
 
-    public MazeObject this[int x, int y] => (MazeObject)contents[x, y];
+    public MazeCell this[int x, int y] => new(x, y, (MazeObject)contents[x, y]);
 
-    private readonly int[,] contents;
+    protected readonly int[,] contents;
+    protected readonly MazeRenderer renderer;
+    protected readonly MazeCollider collider;
+    protected readonly Rigidbody rigidbody;
 
     public Maze() : base()
     {
         contents = new int[WIDTH, HEIGHT];
         SetMaze("Maze01");
 
-        MazeRenderer renderer = AddComponent<MazeRenderer>();
-
-        MazeCollider collider = AddComponent<MazeCollider>();
-
-        Rigidbody rigidbody = AddComponent<Rigidbody>();
-        rigidbody.Collider = collider;
-        rigidbody.Static = true;
+        renderer = AddComponent<MazeRenderer>();
+        rigidbody = AddComponent<Rigidbody>();
+        collider = AddComponent<MazeCollider>();
 
         GameManager.LevelChanged += SetMaze;
+    }
+
+    protected override void InitLayout()
+    {
+        base.InitLayout();
+
+        rigidbody.Body.SetType(BodyType.Static);
+        rigidbody.Collider = collider;
     }
 
     public void ClearCell(int cellX, int cellY)
@@ -43,7 +51,7 @@ public class Maze : GameObject
     public void SetMaze(string mazeName)
     {
         string[] values = File.ReadAllText($@"D:\My Projects\C# Projects\PacMan\PacMan\PacMan\bin\Debug\net6.0-windows\Mazes\{mazeName}.txt").Split(',');
-        
+
         for (int y = 0; y < HEIGHT; y++)
         {
             for (int x = 0; x < WIDTH; x++)
@@ -53,8 +61,5 @@ public class Maze : GameObject
         }
     }
 
-    public Vector2Int GetMazeCell(int x, int y)
-    {
-        return new Vector2Int(x / CellWidth, y / CellHeight);
-    }
+    public MazeCell GetMazeCell(int worldX, int worldY) => this[worldX / CellWidth, worldY / CellHeight];
 }

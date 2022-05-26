@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿global using System.Numerics;
+using Box2D.NetStandard.Dynamics.World;
+using System.Diagnostics;
 
 namespace GameEngine;
 
@@ -8,15 +10,19 @@ public static class Game
     public static event Action? Initialize;
     public static event Action? Update;
 
+    public static int PositionIterations { get; set; } = 3;
+    public static int VelocityIterations { get; set; } = 8;
     public static long FixedTimestep { get; set; } = 16;
-    public static IReadOnlyList<GameObject> GameObjects => (IReadOnlyList<GameObject>)gameObjects;
+    public static IReadOnlyCollection<GameObject> GameObjects => (IReadOnlyList<GameObject>)gameObjects.Values;
+    public static World? PhysicsWorld { get; private set; } = new World(new Vector2(0, 10f));
 
     private static bool initialized;
+    private static int id;
     private static long lag;
     private static long currentTime;
     private static long previousTime;
     private static readonly Stopwatch stopwatch = Stopwatch.StartNew();
-    private static readonly IList<GameObject> gameObjects = new List<GameObject>();
+    private static readonly IDictionary<int, GameObject> gameObjects = new Dictionary<int, GameObject>();
 
     public static void Start()
     {
@@ -31,11 +37,16 @@ public static class Game
         Application.Idle -= IdleTick;
     }
 
+    public static void Destroy(GameObject gameObject)
+    {
+        gameObjects.Remove(gameObject.ID);
+    }
+
     public static GameObject Instantiate(GameObject gameObject)
     {
-        gameObject.ID = gameObjects.Count;
+        gameObject.ID = id++;
 
-        gameObjects.Add(gameObject);
+        gameObjects.Add(gameObject.ID, gameObject);
 
         return gameObject;
     }
@@ -63,6 +74,7 @@ public static class Game
 
         while (lag >= FixedTimestep)
         {
+            PhysicsWorld?.Step(FixedTimestep, VelocityIterations, PositionIterations);
             FixedUpdate?.Invoke();
 
             lag -= FixedTimestep;

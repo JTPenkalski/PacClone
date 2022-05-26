@@ -1,71 +1,62 @@
-﻿namespace GameEngine;
+﻿using Box2D.NetStandard.Dynamics.Bodies;
+
+namespace GameEngine;
 
 public class Rigidbody : Component
 {
-    public event Action<IEnumerable<Collision>>? Collision;
-    public event Action<IEnumerable<Collision>>? Trigger;
-
-    public bool Static { get; set; }
+    public Body Body { get; protected set; }
     public Collider? Collider { get; set; }
-    public Vector2 Velocity { get; set; }
+    public Vector2 Position => Body.GetPosition();
+    public Vector2 Velocity
+    {
+        get => Body.GetLinearVelocity();
+        set => Body.SetLinearVelocity(value);
+    }
 
-    protected ICollection<Collision> hits = new HashSet<Collision>();
+    protected Vector2 prevPosition;
 
-    public Rigidbody(GameObject gameObject) : base(gameObject) { }
+    public Rigidbody(GameObject gameObject) : base(gameObject)
+    {
+        if (Game.PhysicsWorld == null)
+            throw new InvalidOperationException("Cannot add a Rigidbody component without a Physics World initialized in the Game.");
+
+        // Create a temporary Body property for the client to configure
+        Body = Game.PhysicsWorld.CreateBody(new BodyDef());
+    }
+
+    public override void Initialize()
+    {
+        if (Game.PhysicsWorld == null)
+            throw new InvalidOperationException("Cannot add a Rigidbody component without a Physics World initialized in the Game.");
+
+        prevPosition = GameObject.Transform.Position;
+
+        // Override the temporary Body property with position of Transform
+        BodyDef bodyDef = new()
+        {
+            allowSleep = Body.IsSleepingAllowed(),
+            angle = Body.GetAngle(),
+            angularDamping = Body.GetAngularDamping(),
+            angularVelocity = Body.GetAngularVelocity(),
+            awake = Body.IsAwake(),
+            bullet = Body.IsBullet(),
+            enabled = Body.IsEnabled(),
+            fixedRotation = Body.IsFixedRotation(),
+            gravityScale = Body.GetGravityScale(),
+            linearDamping = Body.GetLinearDamping(),
+            linearVelocity = Body.GetLinearVelocity(),
+            position = GameObject.Transform.Position,
+            type = Body.Type(),
+            userData = Body.UserData
+        };
+
+        Game.PhysicsWorld.DestroyBody(Body);
+        Body = Game.PhysicsWorld.CreateBody(bodyDef);
+    }
 
     public override void FixedUpdate()
     {
-        if (!Static)
-        {
-            if (Collider != null)
-            {
-                ResolveCollisions();
-
-                IEnumerable<Collision> collisions = hits.Where(c => !c.Trigger);
-                IEnumerable<Collision> triggers = hits.Where(c => c.Trigger);
-
-                if (collisions.Any())
-                {
-                    foreach (Collision c in collisions)
-                    {
-                        GameObject.Transform.Translate(Vector2.LEFT * c.Depth);
-                        GameObject.Transform.Translate(Vector2.UP * c.Depth);
-                    }
-
-                    OnCollision(collisions);
-                    Velocity = Vector2.ZERO;
-                }
-
-                if (triggers.Any())
-                {
-                    OnTrigger(triggers);
-                }
-            }
-
-            GameObject.Transform.Translate(Time.FixedDeltaTime * Velocity);
-        }
-    }
-
-    protected virtual void OnCollision(IEnumerable<Collision> collisions) => Collision?.Invoke(collisions);
-
-    protected virtual void OnTrigger(IEnumerable<Collision> triggers) => Trigger?.Invoke(triggers);
-
-    protected virtual void ResolveCollisions()
-    {
-        if (Collider != null)
-        {
-            hits.Clear();
-
-            Collider.Origin = GameObject.Transform.Position;
-
-            foreach (GameObject gameObject in Game.GameObjects)
-            {
-                if (gameObject != GameObject && gameObject.GetComponent<Rigidbody>() is Rigidbody other && other.Collider != null)
-                {
-                    foreach (Collision c in other.Collider.GetCollisions(Collider))
-                        hits.Add(c);
-                }
-            }
-        }
+        GameObject.Transform.Translate(Position - prevPosition);
+        prevPosition = Position;
     }
 }

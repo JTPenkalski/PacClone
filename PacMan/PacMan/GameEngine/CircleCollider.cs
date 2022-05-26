@@ -1,4 +1,7 @@
-﻿namespace GameEngine;
+﻿using Box2D.NetStandard.Collision.Shapes;
+using Box2D.NetStandard.Dynamics.Fixtures;
+
+namespace GameEngine;
 
 public class CircleCollider : Collider
 {
@@ -6,13 +9,19 @@ public class CircleCollider : Collider
 
     public CircleCollider(GameObject gameObject) : base(gameObject) { }
 
-    public override IEnumerable<Collision> GetCollisions(Collider other)
+    public override void Initialize()
     {
-        float detectionRadius = other is CircleCollider cc ? Radius + cc.Radius : Radius;
+        CircleShape circle = new();
+        circle.Set(new Vector2(GameObject.Size.Width / 2f, GameObject.Size.Height / 2f) + Offset, Radius);
 
-        if ((other.Position - Position).SquareMagnitude <= detectionRadius * detectionRadius)
+        FixtureDef fixtureDef = new()
         {
-            yield return new Collision(this, Vector2.ZERO);
-        }
+            density = 1f,
+            friction = 0f,
+            isSensor = Trigger,
+            shape = circle
+        };
+
+        AttachedRigidbody.Body.CreateFixture(fixtureDef);
     }
 }

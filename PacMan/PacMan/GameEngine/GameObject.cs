@@ -2,7 +2,7 @@
 
 namespace GameEngine;
 
-public class GameObject : Control
+public class GameObject : Control, IEquatable<GameObject>
 {
     public int ID { get; set; }
 
@@ -38,9 +38,11 @@ public class GameObject : Control
 
     public override int GetHashCode() => ID;
 
-    public override bool Equals(object? obj)
+    public override bool Equals(object? obj) => Equals(obj as GameObject);
+
+    public bool Equals(GameObject? other)
     {
-        if (obj is GameObject other)
+        if (other is not null)
             return ID == other.ID;
 
         return false;

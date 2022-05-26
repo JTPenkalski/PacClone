@@ -1,37 +1,31 @@
-﻿namespace GameEngine;
+﻿using Box2D.NetStandard.Collision.Shapes;
+using Box2D.NetStandard.Dynamics.Fixtures;
+
+namespace GameEngine;
 
 public class BoxCollider : Collider
 {
-    public override Rectangle Bounds => new(Position + (SkinWidth * Vector2.ONE), Size);
-
-    public int SkinWidth { get; set; }
-    private Vector2 _size;
-    public Vector2 Size
-    {
-        get => _size;
-        set
-        {
-            _size = value;
-
-            _size -= 2 * SkinWidth * Vector2.ONE;
-        }
-    }
+    public Vector2 Size { get; set; }
 
     public BoxCollider(GameObject gameObject) : base(gameObject) { }
 
     public override void Initialize()
     {
-        base.Initialize();
-
         if (Size.X == 0 && Size.Y == 0)
-            Size = GameObject.Size;
-    }
+            Size = new Vector2(GameObject.Size.Width, GameObject.Size.Height);
 
-    public override IEnumerable<Collision> GetCollisions(Collider other)
-    {
-        if (Bounds.IntersectsWith(other.Bounds))
+        PolygonShape box = new();
+        box.SetAsBox(Size.X / 2f, Size.Y / 2f, new Vector2(GameObject.Size.Width / 2f, GameObject.Size.Height / 2f) + Offset, 0f);
+
+        FixtureDef fixtureDef = new()
         {
-            yield return new Collision(this, Vector2.ZERO);
-        }
+            density = 1f,
+            friction = 0f,
+            isSensor = Trigger,
+            restitution = 0f,
+            shape = box
+        };
+
+        AttachedRigidbody.Body.CreateFixture(fixtureDef);
     }
 }
