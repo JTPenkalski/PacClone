@@ -26,6 +26,12 @@ public class Rigidbody : Component
 
                 if (collisions.Any())
                 {
+                    foreach (Collision c in collisions)
+                    {
+                        GameObject.Transform.Translate(Vector2.LEFT * c.Depth);
+                        GameObject.Transform.Translate(Vector2.UP * c.Depth);
+                    }
+
                     OnCollision(collisions);
                     Velocity = Vector2.ZERO;
                 }

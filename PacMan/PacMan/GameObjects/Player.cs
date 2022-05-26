@@ -6,6 +6,8 @@ namespace PacMan.GameObjects;
 public class Player : GameObject
 {
     public const float BASE_SPEED = 0.125f;
+    public const int COLLIDER_OFFSET = 6;
+    public const int COLLIDER_SIZE = 19;
 
     private int score;
 
@@ -14,8 +16,8 @@ public class Player : GameObject
         Renderer renderer = AddComponent<Renderer>();
 
         BoxCollider collider = AddComponent<BoxCollider>();
-        collider.Size = new Vector2(21, 21);
-        collider.Offset = new Vector2(5, 5);
+        collider.Size = new Vector2(COLLIDER_SIZE, COLLIDER_SIZE);
+        collider.Offset = new Vector2(COLLIDER_OFFSET, COLLIDER_OFFSET);
 
         Rigidbody rigidbody = AddComponent<Rigidbody>();
         rigidbody.Collider = collider;

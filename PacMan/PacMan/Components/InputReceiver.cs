@@ -21,7 +21,8 @@ public class InputReceiver : Component
     {
         AxialInput = GetInput();
 
-        rigidbody.Velocity = Speed * AxialInput;
+        if (AxialInput != Vector2.ZERO)
+            rigidbody.Velocity = Speed * AxialInput;
     }
 
     protected virtual Vector2 GetInput()
@@ -31,8 +32,8 @@ public class InputReceiver : Component
 
         if (horizontal < 0) return Vector2.LEFT;
         else if (horizontal > 0) return Vector2.RIGHT;
-        else if (vertical > 0) return Vector2.UP;
-        else if (vertical < 0) return Vector2.DOWN;
-        else return AxialInput;
+        else if (vertical > 0) return Vector2.DOWN;
+        else if (vertical < 0) return Vector2.UP;
+        else return Vector2.ZERO;
     }
 }

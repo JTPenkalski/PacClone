@@ -2,11 +2,11 @@
 
 public readonly struct Vector2 : IEquatable<Vector2>
 {
-    public static readonly Vector2 DOWN = new(0f, -1f);
+    public static readonly Vector2 DOWN = new(0f, 1f);
     public static readonly Vector2 LEFT = new(-1f, 0f);
     public static readonly Vector2 ONE = new(1f, 1f);
     public static readonly Vector2 RIGHT = new(1f, 0f);
-    public static readonly Vector2 UP = new(0f, 1f);
+    public static readonly Vector2 UP = new(0f, -1f);
     public static readonly Vector2 ZERO = new(0f, 0f);
     
     public float X { get; init; }
