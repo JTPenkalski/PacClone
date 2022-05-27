@@ -31,12 +31,19 @@
             this.Player = new PacMan.GameObjects.Player();
             this.Maze = new PacMan.GameObjects.Maze();
             this.MazeContainer = new System.Windows.Forms.Panel();
+            this.LivesContainer = new System.Windows.Forms.FlowLayoutPanel();
+            this.LifeIcon1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.MazeContainer.SuspendLayout();
+            this.LivesContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LifeIcon1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // Player
             // 
+            this.Player.BackColor = System.Drawing.Color.Transparent;
             this.Player.ID = 0;
             this.Player.Location = new System.Drawing.Point(424, 728);
             this.Player.Name = "Player";
@@ -45,6 +52,7 @@
             // 
             // Maze
             // 
+            this.Maze.BackColor = System.Drawing.Color.Transparent;
             this.Maze.ID = 1;
             this.Maze.Location = new System.Drawing.Point(0, 0);
             this.Maze.Margin = new System.Windows.Forms.Padding(0);
@@ -55,6 +63,7 @@
             // MazeContainer
             // 
             this.MazeContainer.BackColor = System.Drawing.Color.Transparent;
+            this.MazeContainer.Controls.Add(this.LivesContainer);
             this.MazeContainer.Controls.Add(this.Player);
             this.MazeContainer.Controls.Add(this.Maze);
             this.MazeContainer.Dock = System.Windows.Forms.DockStyle.Left;
@@ -64,10 +73,42 @@
             this.MazeContainer.Size = new System.Drawing.Size(944, 1001);
             this.MazeContainer.TabIndex = 2;
             // 
+            // LivesContainer
+            // 
+            this.LivesContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.LivesContainer.Controls.Add(this.LifeIcon1);
+            this.LivesContainer.Controls.Add(this.pictureBox1);
+            this.LivesContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.LivesContainer.Location = new System.Drawing.Point(904, 8);
+            this.LivesContainer.Margin = new System.Windows.Forms.Padding(8);
+            this.LivesContainer.Name = "LivesContainer";
+            this.LivesContainer.Size = new System.Drawing.Size(32, 320);
+            this.LivesContainer.TabIndex = 3;
+            // 
+            // LifeIcon1
+            // 
+            this.LifeIcon1.Image = global::PacMan.Properties.Resources.Pac01;
+            this.LifeIcon1.Location = new System.Drawing.Point(0, 0);
+            this.LifeIcon1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.LifeIcon1.Name = "LifeIcon1";
+            this.LifeIcon1.Size = new System.Drawing.Size(32, 32);
+            this.LifeIcon1.TabIndex = 0;
+            this.LifeIcon1.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::PacMan.Properties.Resources.Pac01;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 37);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // label1
             // 
             this.label1.BackColor = System.Drawing.Color.Lime;
-            this.label1.Location = new System.Drawing.Point(952, 659);
+            this.label1.Location = new System.Drawing.Point(967, 13);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(15, 15);
             this.label1.TabIndex = 2;
@@ -89,6 +130,9 @@
             this.Text = "Pac-Man";
             this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
             this.MazeContainer.ResumeLayout(false);
+            this.LivesContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.LifeIcon1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -99,5 +143,8 @@
         private GameObjects.Maze Maze;
         private Panel MazeContainer;
         private Label label1;
+        private FlowLayoutPanel LivesContainer;
+        private PictureBox LifeIcon1;
+        private PictureBox pictureBox1;
     }
 }
