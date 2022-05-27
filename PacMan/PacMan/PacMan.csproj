@@ -10,11 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Animations\Player_Move.txt" />
     <None Remove="Mazes\Levels.txt" />
     <None Remove="Mazes\Maze01.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Animations\Player_Move.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Mazes\Levels.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

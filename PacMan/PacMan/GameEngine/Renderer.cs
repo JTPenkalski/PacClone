@@ -5,8 +5,8 @@ namespace GameEngine;
 
 public class Renderer : Component
 {
-    private Bitmap? _bitmap;
-    public Bitmap? Sprite
+    private Image? _bitmap;
+    public Image? Sprite
     {
         get => _bitmap;
         set
@@ -31,14 +31,14 @@ public class Renderer : Component
             throw new ArgumentException("The specified sender does not match this Renderer's attached GameObject.");
 
         using BufferedGraphics buffer = graphicsContext.Allocate(e.Graphics, GameObject.ClientRectangle);
-        using Brush textureBrush = Sprite != null ? new TextureBrush(ResizeImage(Sprite, GameObject.Width, GameObject.Height)) : new SolidBrush(Color.Magenta);
+        using Brush brush = Sprite != null ? new TextureBrush(ResizeImage(Sprite, GameObject.Width, GameObject.Height)) : new SolidBrush(Color.Magenta);
 
-        buffer.Graphics.FillRectangle(textureBrush, GameObject.ClientRectangle);
+        buffer.Graphics.FillRectangle(brush, GameObject.ClientRectangle);
 
         buffer.Render();
     }
 
-    protected virtual Image ResizeImage(Image image, int width, int height)
+    public virtual Image ResizeImage(Image image, int width, int height)
     {
         Rectangle destRect = new(0, 0, width, height);
         Bitmap resizedImage = new(width, height);
@@ -49,7 +49,7 @@ public class Renderer : Component
         {
             graphics.CompositingMode = CompositingMode.SourceCopy;
             graphics.CompositingQuality = CompositingQuality.HighQuality;
-            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             graphics.SmoothingMode = SmoothingMode.HighQuality;
             graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
@@ -60,5 +60,33 @@ public class Renderer : Component
         }
 
         return resizedImage;
+    }
+
+    public virtual Image RotateImage(Image image, float angle)
+    {
+        // Create an empty Bitmap image
+        Bitmap bitmap = new(image.Width, image.Height);
+
+        // Turn the Bitmap into a Graphics object
+        using Graphics graphics = Graphics.FromImage(bitmap);
+
+        // Set the rotation point to the center of our image
+        graphics.TranslateTransform((float)bitmap.Width / 2, (float)bitmap.Height / 2);
+
+        // Rotate the image
+        graphics.RotateTransform(angle);
+
+        // Reset the rotation point
+        graphics.TranslateTransform(-(float)bitmap.Width / 2, -(float)bitmap.Height / 2);
+
+        // Set the InterpolationMode to HighQualityBicubic so to ensure a high
+        // quality image once it is transformed to the specified size
+        graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
+        // Draw our new image onto the Graphics object
+        graphics.DrawImage(image, new Point(0, 0));
+
+        // Return the final image
+        return bitmap;
     }
 }

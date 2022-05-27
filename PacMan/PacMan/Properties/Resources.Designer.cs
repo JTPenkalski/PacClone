@@ -63,6 +63,36 @@ namespace PacMan.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Pac01 {
+            get {
+                object obj = ResourceManager.GetObject("Pac01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Pac02 {
+            get {
+                object obj = ResourceManager.GetObject("Pac02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Pac03 {
+            get {
+                object obj = ResourceManager.GetObject("Pac03", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Pellet {
             get {
                 object obj = ResourceManager.GetObject("Pellet", resourceCulture);

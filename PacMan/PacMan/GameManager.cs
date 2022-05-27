@@ -4,7 +4,7 @@ public static class GameManager
 {
     public static event Action<string>? LevelChanged;
 
-    public const string LEVELS_PATH = @"D:\My Projects\C# Projects\PacMan\PacMan\PacMan\bin\Debug\net6.0-windows\Mazes\Levels.txt";
+    public const string LEVELS_PATH = $@"{Program.PROJECT_PATH}\Mazes\Levels.txt";
 
     public static int Level { get; private set; }
 

@@ -2,10 +2,12 @@
 
 public abstract class Component
 {
+    public bool Enabled { get; set; }
     public GameObject GameObject { get; init; }
 
     public Component(GameObject gameObject)
     {
+        Enabled = true;
         GameObject = gameObject;
 
         Game.FixedUpdate += FixedUpdate;

@@ -22,7 +22,6 @@ public class GameObject : Control, IEquatable<GameObject>
 
     public GameObject()
     {
-        DoubleBuffered = true;
         SetStyle(ControlStyles.UserPaint
             | ControlStyles.AllPaintingInWmPaint
             | ControlStyles.ResizeRedraw
@@ -30,6 +29,8 @@ public class GameObject : Control, IEquatable<GameObject>
             | ControlStyles.OptimizedDoubleBuffer
             | ControlStyles.SupportsTransparentBackColor,
             true);
+        DoubleBuffered = true;
+        BackColor = Color.Transparent;
 
         Transform = AddComponent<Transform>();
 

@@ -50,7 +50,7 @@ public class Maze : GameObject
 
     public void SetMaze(string mazeName)
     {
-        string[] values = File.ReadAllText($@"D:\My Projects\C# Projects\PacMan\PacMan\PacMan\bin\Debug\net6.0-windows\Mazes\{mazeName}.txt").Split(',');
+        string[] values = File.ReadAllText($@"{Program.PROJECT_PATH}\Mazes\{mazeName}.txt").Split(',');
 
         for (int y = 0; y < HEIGHT; y++)
         {
