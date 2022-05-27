@@ -1,6 +1,7 @@
 ﻿using Box2D.NetStandard.Dynamics.Bodies;
 using GameEngine;
 using PacMan.Components;
+using PacMan.Mazes;
 
 namespace PacMan.GameObjects;
 
@@ -32,22 +33,35 @@ public class Player : GameObject
 
         animator.AddAnimation(new Animation($@"{Program.PROJECT_PATH}\Animations\Player_Move.txt"), true);
 
-        collider.Radius = 15;
+        collider.Radius = 16;
 
+        rigidbody.Body.SetFixedRotation(true);
         rigidbody.Body.SetGravityScale(0f);
         rigidbody.Body.SetLinearDampling(0f);
         rigidbody.Body.SetType(BodyType.Dynamic);
         rigidbody.Collider = collider;
-        rigidbody.CollisionEnter += Rigidbody_OnCollisionEnter;
-        rigidbody.CollisionExit += Rigidbody_OnCollisionExit;
+        rigidbody.CollisionEnter += Rigidbody_CollisionEnter;
+        rigidbody.TriggerEnter += Rigidbody_TriggerEnter;
 
-        keyboardController.MoveSpeed = 0.15f;
+        //keyboardController.InitialDirection = Vector2.UnitX;
+        keyboardController.MoveSpeed = 1500f;
     }
 
-    protected virtual void Rigidbody_OnCollisionEnter(Collider other)
+    protected virtual void Rigidbody_CollisionEnter(Collision collision)
     {
-        Debug.WriteLine("Here");
+        //Debug.WriteLine("Hit");
     }
 
-    protected virtual void Rigidbody_OnCollisionExit(Collider other) { }
+    protected virtual void Rigidbody_TriggerEnter(Collision collision)
+    {
+        if (collision.Other.GameObject is Maze maze)
+        {
+            score += Maze.PELLET_VALUE;
+
+            Vector2 playerCenterPos = new Vector2(Transform.Position.X + (Size.Width / 2f), Transform.Position.Y + (Size.Height / 2f));
+            MazeCell cell = maze.GetMazeCell((int)playerCenterPos.X, (int)playerCenterPos.Y);
+
+            maze.ClearCell(cell.X, cell.Y);
+        }
+    }
 }

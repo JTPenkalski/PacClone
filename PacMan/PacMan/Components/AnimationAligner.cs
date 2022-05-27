@@ -22,13 +22,13 @@ public class AnimationAligner : Component
 
     public override void Update()
     {
-        if (keyboardController.AxialInput.X < 0)
+        if (keyboardController.Direction.X < 0)
             animator.Settings = Animator.RenderSettings.Rotate180;
-        else if (keyboardController.AxialInput.X > 0)
+        else if (keyboardController.Direction.X > 0)
             animator.Settings = Animator.RenderSettings.None;
-        else if (keyboardController.AxialInput.Y > 0)
+        else if (keyboardController.Direction.Y > 0)
             animator.Settings = Animator.RenderSettings.Rotate90;
-        else if (keyboardController.AxialInput.Y < 0)
+        else if (keyboardController.Direction.Y < 0)
             animator.Settings = Animator.RenderSettings.Rotate270;
     }
 }

@@ -70,8 +70,8 @@ public class GameObject : Control, IEquatable<GameObject>
 
     protected override void OnPaint(PaintEventArgs e)
     {
-        base.OnPaint(e);
-
         Renderer?.Render(this, e);
+
+        base.OnPaint(e);
     }
 }

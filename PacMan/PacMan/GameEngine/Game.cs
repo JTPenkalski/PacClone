@@ -26,7 +26,7 @@ public static class Game
 
     static Game()
     {
-        PhysicsWorld.SetContactListener(new Collision());
+        PhysicsWorld.SetContactListener(new ContactNotifier());
     }
 
     public static void Start()

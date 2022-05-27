@@ -4,8 +4,10 @@ namespace GameEngine;
 
 public class Rigidbody : Component
 {
-    public event Action<Collider>? CollisionEnter;
-    public event Action<Collider>? CollisionExit;
+    public event Action<Collision>? CollisionEnter;
+    public event Action<Collision>? CollisionExit;
+    public event Action<Collision>? TriggerEnter;
+    public event Action<Collision>? TriggerExit;
 
     public Body Body { get; protected set; }
     public Collider? Collider { get; set; }
@@ -26,9 +28,6 @@ public class Rigidbody : Component
 
     public override void Initialize()
     {
-        if (Game.PhysicsWorld == null)
-            throw new InvalidOperationException("Cannot add a Rigidbody component without a Physics World initialized in the Game.");
-
         prevPosition = GameObject.Transform.Position;
 
         // Override the temporary Body property with position of Transform
@@ -60,7 +59,11 @@ public class Rigidbody : Component
         prevPosition = Position;
     }
 
-    public virtual void OnCollisionEnter(Collider other) => CollisionEnter?.Invoke(other);
+    public virtual void OnCollisionEnter(Collision collision) => CollisionEnter?.Invoke(collision);
 
-    public virtual void OnCollisionExit(Collider other) => CollisionExit?.Invoke(other);
+    public virtual void OnCollisionExit(Collision collision) => CollisionExit?.Invoke(collision);
+
+    public virtual void OnTriggerEnter(Collision collision) => TriggerEnter?.Invoke(collision);
+
+    public virtual void OnTriggerExit(Collision collision) => TriggerExit?.Invoke(collision);
 }

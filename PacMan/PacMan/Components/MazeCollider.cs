@@ -40,6 +40,22 @@ public class MazeCollider : Collider
 
                     AttachedRigidbody.Body.CreateFixture(fixtureDef);
                 }
+                else if (TRIGGERS.Contains(cell.Content))
+                {
+                    CircleShape circle = new();
+                    circle.Set(cellCenterWorldPos, Math.Min(Maze.CellWidth, Maze.CellHeight) / 2f);
+
+                    FixtureDef fixtureDef = new()
+                    {
+                        density = 1f,
+                        friction = 0f,
+                        isSensor = true,
+                        restitution = 0f,
+                        shape = circle
+                    };
+
+                    AttachedRigidbody.Body.CreateFixture(fixtureDef);
+                }
             }
         }
     }

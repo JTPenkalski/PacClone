@@ -19,6 +19,7 @@ public class CircleCollider : Collider
             density = 1f,
             friction = 0f,
             isSensor = Trigger,
+            restitution = 0f,
             shape = circle
         };
 

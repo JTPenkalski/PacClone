@@ -10,19 +10,58 @@ public class KeyboardController : Component
         if (rb == null)
             throw new Exception($"Component {nameof(KeyboardController)} expects component {nameof(Rigidbody)}.");
         rigidbody = rb;
+
+        rigidbody.CollisionEnter += Rigidbody_CollisionEnter;
     }
 
     public float MoveSpeed { get; set; }
-    public Vector2 AxialInput { get; private set; }
+    public Vector2 AxialInput { get; protected set; }
+    public Vector2 InitialDirection { get; set; }
+    public Vector2 Direction { get; protected set; }
 
-    private readonly Rigidbody rigidbody;
+    protected bool enteringWall;
+    protected Vector2 previousAxialInput;
+    protected readonly Rigidbody rigidbody;
+
+    public override void Initialize()
+    {
+        AxialInput = InitialDirection;
+    }
 
     public override void Update()
     {
-        AxialInput = GetInput();
+        Vector2 input = GetInput();
 
-        if (AxialInput != Vector2.Zero)
-            rigidbody.Body.ApplyLinearImpulseToCenter(AxialInput * MoveSpeed);
+        // Valid, new input this frame
+        if (input != Vector2.Zero && input != AxialInput)
+        {
+            previousAxialInput = AxialInput;
+            AxialInput = input;
+        }
+    }
+
+    public override void FixedUpdate()
+    {
+        Move();
+    }
+
+    protected virtual void Move()
+    {
+        Direction = AxialInput;
+
+        if (enteringWall)
+        {
+            enteringWall = false;
+            Direction = previousAxialInput;
+        }
+
+        rigidbody.Body.ApplyLinearImpulseToCenter(Direction * MoveSpeed);
+    }
+
+    protected virtual void Rigidbody_CollisionEnter(Collision collision)
+    {
+        if (Vector2.Dot(collision.Normal, rigidbody.Velocity) == -1f)
+            enteringWall = true;
     }
 
     protected virtual Vector2 GetInput()
