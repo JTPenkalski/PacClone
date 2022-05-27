@@ -38,7 +38,16 @@ public class Player : GameObject
         rigidbody.Body.SetLinearDampling(0f);
         rigidbody.Body.SetType(BodyType.Dynamic);
         rigidbody.Collider = collider;
+        rigidbody.CollisionEnter += Rigidbody_OnCollisionEnter;
+        rigidbody.CollisionExit += Rigidbody_OnCollisionExit;
 
         keyboardController.MoveSpeed = 0.15f;
     }
+
+    protected virtual void Rigidbody_OnCollisionEnter(Collider other)
+    {
+        Debug.WriteLine("Here");
+    }
+
+    protected virtual void Rigidbody_OnCollisionExit(Collider other) { }
 }

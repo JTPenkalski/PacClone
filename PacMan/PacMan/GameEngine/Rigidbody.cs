@@ -4,6 +4,9 @@ namespace GameEngine;
 
 public class Rigidbody : Component
 {
+    public event Action<Collider>? CollisionEnter;
+    public event Action<Collider>? CollisionExit;
+
     public Body Body { get; protected set; }
     public Collider? Collider { get; set; }
     public Vector2 Position => Body.GetPosition();
@@ -17,9 +20,6 @@ public class Rigidbody : Component
 
     public Rigidbody(GameObject gameObject) : base(gameObject)
     {
-        if (Game.PhysicsWorld == null)
-            throw new InvalidOperationException("Cannot add a Rigidbody component without a Physics World initialized in the Game.");
-
         // Create a temporary Body property for the client to configure
         Body = Game.PhysicsWorld.CreateBody(new BodyDef());
     }
@@ -47,7 +47,7 @@ public class Rigidbody : Component
             linearVelocity = Body.GetLinearVelocity(),
             position = GameObject.Transform.Position,
             type = Body.Type(),
-            userData = Body.UserData
+            userData = this
         };
 
         Game.PhysicsWorld.DestroyBody(Body);
@@ -59,4 +59,8 @@ public class Rigidbody : Component
         GameObject.Transform.Translate(Position - prevPosition);
         prevPosition = Position;
     }
+
+    public virtual void OnCollisionEnter(Collider other) => CollisionEnter?.Invoke(other);
+
+    public virtual void OnCollisionExit(Collider other) => CollisionExit?.Invoke(other);
 }

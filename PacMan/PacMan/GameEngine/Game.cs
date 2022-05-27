@@ -14,26 +14,35 @@ public static class Game
     public static int VelocityIterations { get; set; } = 8;
     public static long FixedTimestep { get; set; } = 16;
     public static IReadOnlyCollection<GameObject> GameObjects => (IReadOnlyList<GameObject>)gameObjects.Values;
-    public static World? PhysicsWorld { get; private set; } = new World(new Vector2(0, 10f));
+    public static World PhysicsWorld { get; private set; } = new World(new Vector2(0, 10f));
 
     private static bool initialized;
     private static int id;
     private static long lag;
     private static long currentTime;
     private static long previousTime;
-    private static readonly Stopwatch stopwatch = Stopwatch.StartNew();
+    private static readonly Stopwatch stopwatch = new();
     private static readonly IDictionary<int, GameObject> gameObjects = new Dictionary<int, GameObject>();
+
+    static Game()
+    {
+        PhysicsWorld.SetContactListener(new Collision());
+    }
 
     public static void Start()
     {
         previousTime = DateTime.Now.Millisecond;
         currentTime = previousTime;
 
+        stopwatch.Start();
+
         Application.Idle += IdleTick;
     }
 
     public static void Stop()
     {
+        stopwatch.Stop();
+
         Application.Idle -= IdleTick;
     }
 
