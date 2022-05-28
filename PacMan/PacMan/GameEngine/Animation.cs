@@ -43,4 +43,14 @@ public class Animation
     }
 
     public Keyframe this[int index] => keyframes[index];
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Animation animation &&
+               Loop == animation.Loop &&
+               Duration == animation.Duration &&
+               Name == animation.Name;
+    }
+
+    public override int GetHashCode() => HashCode.Combine(Loop, Duration, Name);
 }
