@@ -9,15 +9,8 @@ public class AnimationAligner : Component
 
     public AnimationAligner(GameObject gameObject) : base(gameObject)
     {
-        Animator? anim = GameObject.GetComponent<Animator>();
-        if (anim == null)
-            throw new Exception($"Component {nameof(AnimationAligner)} expects component {nameof(Animator)}.");
-        animator = anim;
-
-        KeyboardController? kbc = GameObject.GetComponent<KeyboardController>();
-        if (kbc == null)
-            throw new Exception($"Component {nameof(AnimationAligner)} expects component {nameof(KeyboardController)}.");
-        keyboardController = kbc;
+        animator = GameObject.GetComponent<Animator>();
+        keyboardController = GameObject.GetComponent<KeyboardController>();
     }
 
     public override void FixedUpdate()

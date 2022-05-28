@@ -5,20 +5,17 @@ namespace PacMan.Components;
 
 public class KeyboardController : Component
 {
-    public KeyboardController(GameObject gameObject) : base(gameObject)
-    {
-        Rigidbody? rb = GameObject.GetComponent<Rigidbody>();
-        if (rb == null)
-            throw new Exception($"Component {nameof(KeyboardController)} expects component {nameof(Rigidbody)}.");
-        rigidbody = rb;
-    }
-
     public float MoveSpeed { get; set; }
     public Vector2 AxialInput { get; protected set; }
     public Vector2 InitialDirection { get; set; }
     public Vector2 Direction { get; protected set; }
 
     protected readonly Rigidbody rigidbody;
+
+    public KeyboardController(GameObject gameObject) : base(gameObject)
+    {
+        rigidbody = GameObject.GetComponent<Rigidbody>();
+    }
 
     public override void Initialize()
     {

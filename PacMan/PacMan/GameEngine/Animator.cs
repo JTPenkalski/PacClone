@@ -25,11 +25,7 @@ public class Animator : Component
 
     public Animator(GameObject gameObject) : base(gameObject)
     {
-        Renderer? renderer = gameObject.Renderer;
-        if (renderer == null)
-            throw new InvalidOperationException($"Component {nameof(Animator)} expects component {nameof(Renderer)}.");
-
-        this.renderer = renderer;
+        renderer = gameObject.GetComponent<Renderer>();
     }
 
     public Animation this[string name] => animations[name];

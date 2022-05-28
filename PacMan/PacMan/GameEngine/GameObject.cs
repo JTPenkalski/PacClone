@@ -4,13 +4,7 @@ namespace GameEngine;
 
 public class GameObject : Control, IEquatable<GameObject>
 {
-    public int ID { get; set; }
-
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Bindable(false)]
-    [Browsable(false)]
-    public Renderer? Renderer { get; set; }
+    public int ID { get; set; }    
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -18,6 +12,7 @@ public class GameObject : Control, IEquatable<GameObject>
     [Browsable(false)]
     public Transform Transform { get; init; }
 
+    protected Renderer? renderer;
     protected readonly IDictionary<Type, Component> components = new Dictionary<Type, Component>(2);
 
     public GameObject()
@@ -56,7 +51,7 @@ public class GameObject : Control, IEquatable<GameObject>
             components.Add(typeof(T), newComponent);
 
             if (newComponent is Renderer renderer)
-                Renderer = renderer;
+                this.renderer = renderer;
 
             return newComponent;
         }
@@ -64,13 +59,13 @@ public class GameObject : Control, IEquatable<GameObject>
         throw new InvalidOperationException($"Cannot add component of type {typeof(T)}");
     }
 
-    public T? GetComponent<T>() where T : Component => components.ContainsKey(typeof(T)) ? (T)components[typeof(T)] : null;
+    public T GetComponent<T>() where T : Component => (T)components[typeof(T)];
 
     public bool RemoveComponent<T>() where T : Component => components.Remove(typeof(T));
 
     protected override void OnPaint(PaintEventArgs e)
     {
-        Renderer?.Render(this, e);
+        renderer?.Render(this, e);
 
         base.OnPaint(e);
     }

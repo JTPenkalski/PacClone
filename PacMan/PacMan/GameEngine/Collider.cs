@@ -14,11 +14,7 @@ public abstract class Collider : Component
 
     public Collider(GameObject gameObject) : base(gameObject)
     {
-        Rigidbody? rigidbody = gameObject.GetComponent<Rigidbody>();
-        if (rigidbody == null)
-            throw new InvalidOperationException($"Component {nameof(Collider)} expects component {nameof(Rigidbody)}.");
-
-        AttachedRigidbody = rigidbody;
+        AttachedRigidbody = gameObject.GetComponent<Rigidbody>();
         Shape = new PolygonShape();
     }
 
