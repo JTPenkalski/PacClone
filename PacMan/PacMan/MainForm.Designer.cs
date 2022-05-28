@@ -31,10 +31,11 @@
             this.Player = new PacMan.GameObjects.Player();
             this.Maze = new PacMan.GameObjects.Maze();
             this.MazeContainer = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.RedGhost = new PacMan.GameObjects.Ghost();
             this.LivesContainer = new System.Windows.Forms.FlowLayoutPanel();
             this.LifeIcon1 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.MazeContainer.SuspendLayout();
             this.LivesContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LifeIcon1)).BeginInit();
@@ -63,6 +64,8 @@
             // MazeContainer
             // 
             this.MazeContainer.BackColor = System.Drawing.Color.Transparent;
+            this.MazeContainer.Controls.Add(this.label1);
+            this.MazeContainer.Controls.Add(this.RedGhost);
             this.MazeContainer.Controls.Add(this.LivesContainer);
             this.MazeContainer.Controls.Add(this.Player);
             this.MazeContainer.Controls.Add(this.Maze);
@@ -72,6 +75,23 @@
             this.MazeContainer.Name = "MazeContainer";
             this.MazeContainer.Size = new System.Drawing.Size(944, 1001);
             this.MazeContainer.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Lime;
+            this.label1.Location = new System.Drawing.Point(921, 345);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(15, 15);
+            this.label1.TabIndex = 2;
+            // 
+            // RedGhost
+            // 
+            this.RedGhost.BackColor = System.Drawing.Color.Transparent;
+            this.RedGhost.ID = 2;
+            this.RedGhost.Location = new System.Drawing.Point(424, 344);
+            this.RedGhost.Name = "RedGhost";
+            this.RedGhost.Size = new System.Drawing.Size(47, 47);
+            this.RedGhost.TabIndex = 4;
             // 
             // LivesContainer
             // 
@@ -105,21 +125,12 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
-            // label1
-            // 
-            this.label1.BackColor = System.Drawing.Color.Lime;
-            this.label1.Location = new System.Drawing.Point(609, 736);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(15, 15);
-            this.label1.TabIndex = 2;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1484, 1011);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.MazeContainer);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -146,5 +157,6 @@
         private FlowLayoutPanel LivesContainer;
         private PictureBox LifeIcon1;
         private PictureBox pictureBox1;
+        private GameObjects.Ghost RedGhost;
     }
 }

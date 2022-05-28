@@ -18,7 +18,6 @@ public class Maze : GameObject
     public MazeCell this[int x, int y] => new(x, y, (MazeObject)contents[x, y]);
 
     protected readonly int[,] contents;
-    protected readonly MazeRenderer renderer;
     protected readonly MazeCollider collider;
     protected readonly Rigidbody rigidbody;
 

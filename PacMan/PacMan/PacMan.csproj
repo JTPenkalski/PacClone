@@ -11,12 +11,28 @@
 
   <ItemGroup>
     <None Remove="Animations\Player_Move.txt" />
+    <None Remove="Animations\RedGhost_Down.txt" />
+    <None Remove="Animations\RedGhost_Left.txt" />
+    <None Remove="Animations\RedGhost_Right.txt" />
+    <None Remove="Animations\RedGhost_Up.txt" />
     <None Remove="Mazes\Levels.txt" />
     <None Remove="Mazes\Maze01.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Animations\Player_Move.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Animations\RedGhost_Left.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Animations\RedGhost_Up.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Animations\RedGhost_Down.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Animations\RedGhost_Right.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Mazes\Levels.txt">

@@ -1,0 +1,3 @@
+﻿true,
+RedGhost01, 10,
+RedGhost02, 10

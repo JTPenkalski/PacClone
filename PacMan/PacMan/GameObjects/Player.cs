@@ -12,7 +12,6 @@ public class Player : GameObject
     protected readonly AnimationAligner animationAligner;
     protected readonly CircleCollider collider;
     protected readonly KeyboardController keyboardController;
-    protected readonly Renderer renderer;
     protected readonly Rigidbody rigidbody;
 
     public Player() : base()
@@ -29,7 +28,8 @@ public class Player : GameObject
     {
         base.InitLayout();
 
-        renderer.Sprite = Resources.Pac01;
+        if (renderer != null)
+            renderer.Sprite = Resources.Pac01;
 
         animator.AddAnimation(new Animation($@"{Program.PROJECT_PATH}\Animations\Player_Move.txt"), true);
 

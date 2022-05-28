@@ -14,6 +14,20 @@ public class Animation
         }
     }
 
+    private const string ANY_ANIMATION = "ANY";
+
+    private static Animation? _any;
+    public static Animation Any
+    {
+        get
+        {
+            if (_any == null)
+                _any = new Animation(ANY_ANIMATION);
+
+            return _any;
+        }
+    }
+
     public bool Loop { get; protected set; }
     public int Duration { get; protected set; }
     public int Keyframes { get; protected set; }
@@ -23,22 +37,29 @@ public class Animation
 
     public Animation(string filePath)
     {
-        string[] values = File.ReadAllText(filePath).Split(',');
-
-        Name = Path.GetFileNameWithoutExtension(filePath);
-        Loop = bool.Parse(values[0]);
-
-        for (int i = 1; i < values.Length; i += 2)
+        if (filePath == ANY_ANIMATION)
         {
-            if (Resources.ResourceManager.GetObject(values[i].Trim()) is not Image image)
-                throw new InvalidOperationException($"Cannot create animation with missing resource {values[i]}");
+            Name = ANY_ANIMATION;
+        }
+        else
+        {
+            string[] values = File.ReadAllText(filePath).Split(',');
 
-            int duration = int.Parse(values[i + 1]);
+            Name = Path.GetFileNameWithoutExtension(filePath);
+            Loop = bool.Parse(values[0]);
 
-            keyframes.Add(new Keyframe(image, duration));
+            for (int i = 1; i < values.Length; i += 2)
+            {
+                if (Resources.ResourceManager.GetObject(values[i].Trim()) is not Image image)
+                    throw new InvalidOperationException($"Cannot create animation with missing resource {values[i]}");
 
-            Duration += duration;
-            Keyframes++;
+                int duration = int.Parse(values[i + 1]);
+
+                keyframes.Add(new Keyframe(image, duration));
+
+                Duration += duration;
+                Keyframes++;
+            }
         }
     }
 
@@ -49,7 +70,7 @@ public class Animation
         return obj is Animation animation &&
                Loop == animation.Loop &&
                Duration == animation.Duration &&
-               Name == animation.Name;
+               (Name == animation.Name || Name == ANY_ANIMATION);
     }
 
     public override int GetHashCode() => HashCode.Combine(Loop, Duration, Name);

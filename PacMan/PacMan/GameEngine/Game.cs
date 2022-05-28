@@ -60,6 +60,8 @@ public static class Game
         return gameObject;
     }
 
+    public static GameObject FindGameObject(string name) => gameObjects.Values.Where(g => g.Name == name).ElementAt(Index.Start);
+
     private static void IdleTick(object? sender, EventArgs e)
     {
         while (!NativeMessageHandler.PeekMessage(out _, IntPtr.Zero, 0, 0, 0))
