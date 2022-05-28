@@ -20,7 +20,7 @@ public class AnimationAligner : Component
         keyboardController = kbc;
     }
 
-    public override void Update()
+    public override void FixedUpdate()
     {
         if (keyboardController.Direction.X < 0)
             animator.Settings = Animator.RenderSettings.Rotate180;

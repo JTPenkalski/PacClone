@@ -1,4 +1,5 @@
-﻿using GameEngine;
+﻿using Box2D.NetStandard.Dynamics.Fixtures;
+using GameEngine;
 
 namespace PacMan.Components;
 
@@ -10,8 +11,6 @@ public class KeyboardController : Component
         if (rb == null)
             throw new Exception($"Component {nameof(KeyboardController)} expects component {nameof(Rigidbody)}.");
         rigidbody = rb;
-
-        rigidbody.CollisionEnter += Rigidbody_CollisionEnter;
     }
 
     public float MoveSpeed { get; set; }
@@ -19,8 +18,6 @@ public class KeyboardController : Component
     public Vector2 InitialDirection { get; set; }
     public Vector2 Direction { get; protected set; }
 
-    protected bool enteringWall;
-    protected Vector2 previousAxialInput;
     protected readonly Rigidbody rigidbody;
 
     public override void Initialize()
@@ -33,9 +30,8 @@ public class KeyboardController : Component
         Vector2 input = GetInput();
 
         // Valid, new input this frame
-        if (input != Vector2.Zero && input != AxialInput)
+        if (input != Vector2.Zero)
         {
-            previousAxialInput = AxialInput;
             AxialInput = input;
         }
     }
@@ -47,21 +43,16 @@ public class KeyboardController : Component
 
     protected virtual void Move()
     {
-        Direction = AxialInput;
-
-        if (enteringWall)
+        if (rigidbody.Collider != null && AxialInput != Vector2.Zero)
         {
-            enteringWall = false;
-            Direction = previousAxialInput;
+            RaycastHit hit = Physics.RayCast(GameObject.Transform.CenterPosition, AxialInput, 32f, new Fixture[] { rigidbody.Collider.Fixture });
+            if (!hit)
+            {
+                Direction = AxialInput;
+            }
         }
 
         rigidbody.Body.ApplyLinearImpulseToCenter(Direction * MoveSpeed);
-    }
-
-    protected virtual void Rigidbody_CollisionEnter(Collision collision)
-    {
-        if (Vector2.Dot(collision.Normal, rigidbody.Velocity) == -1f)
-            enteringWall = true;
     }
 
     protected virtual Vector2 GetInput()
