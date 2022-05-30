@@ -6,5 +6,6 @@ public enum MazeObject
     WALL,
     PELLET,
     POWER_PELLET,
-    GHOST_WALL
+    GHOST_WALL,
+    BARRIER
 }

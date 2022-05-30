@@ -17,18 +17,6 @@ public class PathfindingAgent : Component
         rigidbody = gameObject.GetComponent<Rigidbody>();
     }
 
-    public override void Initialize()
-    {
-        // Initial path
-        if (Grid != null && Current != null)
-        {
-            PathfindingGrid.Index destinationIndex = Grid.GetRandomIndex();
-            Destination = Grid[destinationIndex.X, destinationIndex.Y];
-
-            path = FindPath(Current, Destination);
-        }
-    }
-
     public override void FixedUpdate()
     {
         if (Grid != null && Current != null && Destination != null && path != null)
@@ -37,15 +25,20 @@ public class PathfindingAgent : Component
 
             if (centerPositionInt == path[currentPathIndex].WorldPosition)
             {
+                // Generate new path
                 if (path[currentPathIndex].GridIndex == Destination.GridIndex)
                 {
                     PathfindingGrid.Index destinationIndex = Grid.GetRandomIndex();
-                    PathfindingNode newDestination = Grid[destinationIndex.X, destinationIndex.Y];
+                    while (destinationIndex == Destination.GridIndex)
+                        destinationIndex = Grid.GetRandomIndex();
+
+                    Current = Destination;
+                    Destination = Grid[destinationIndex.X, destinationIndex.Y];
 
                     currentPathIndex = 0;
-                    path = FindPath(Destination, newDestination);
-                    Destination = newDestination;
+                    path = FindPath(Current, Destination);
                 }
+                // Next waypoint
                 else
                 {
                     Current = path[currentPathIndex];
@@ -54,6 +47,14 @@ public class PathfindingAgent : Component
             }
 
             rigidbody.Velocity = path[currentPathIndex].WorldPosition - Current.WorldPosition;
+        }
+        // Repeatedly try to generate the initial path until Current is set
+        else if (Grid != null && Current != null)
+        {
+            PathfindingGrid.Index destinationIndex = Grid.GetRandomIndex();
+            Destination = Grid[destinationIndex.X, destinationIndex.Y];
+
+            path = FindPath(Current, Destination);
         }
     }
 
@@ -64,6 +65,8 @@ public class PathfindingAgent : Component
     {
         if (Grid == null)
             throw new InvalidOperationException($"Cannot find a new path because the {nameof(PathfindingGrid)} is null.");
+
+        Grid.Reset();
 
         if (startNode.IsObstacle || targetNode.IsObstacle)
             return Array.Empty<PathfindingNode>();

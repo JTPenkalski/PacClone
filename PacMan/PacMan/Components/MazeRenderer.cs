@@ -125,7 +125,7 @@ public class MazeRenderer : Renderer
             // Redraw specific cells
             foreach (Rectangle r in GetInvalidatedMazeCells(e.ClipRectangle))
             {
-                if (Maze[r.X, r.Y].Content != MazeObject.AIR)
+                if (Maze[r.X, r.Y].Content != MazeObject.AIR && Maze[r.X, r.Y].Content != MazeObject.BARRIER)
                 {
                     using Brush brush = GetMazeCellBrush(r.X, r.Y, Maze.CellWidth, Maze.CellHeight);
                     buffer.Graphics.FillRectangle(brush, r.X * Maze.CellWidth, r.Y * Maze.CellHeight, Maze.CellWidth, Maze.CellHeight);
@@ -139,7 +139,7 @@ public class MazeRenderer : Renderer
             {
                 for (int x = 0; x < Maze.WIDTH; x++)
                 {
-                    if (Maze[x, y].Content != MazeObject.AIR)
+                    if (Maze[x, y].Content != MazeObject.AIR && Maze[x, y].Content != MazeObject.BARRIER)
                     {
                         using Brush brush = GetMazeCellBrush(x, y, Maze.CellWidth, Maze.CellHeight);
                         buffer.Graphics.FillRectangle(brush, x * Maze.CellWidth, y * Maze.CellHeight, Maze.CellWidth, Maze.CellHeight);

@@ -10,6 +10,7 @@ public class Maze : GameObject
     public const int HEIGHT = 31;
     public const int PELLET_VALUE = 100;
     public const int WIDTH = 28;
+    protected static readonly ISet<MazeObject> PATH_OBSTACLES = new HashSet<MazeObject>() { MazeObject.WALL, MazeObject.GHOST_WALL, MazeObject.BARRIER };
 
     public int CellWidth => Size.Width / WIDTH;
 
@@ -79,7 +80,7 @@ public class Maze : GameObject
                 (
                     new PathfindingGrid.Index(x, y),
                     new Vector2(x * CellWidth + CellWidth / 2, y * CellHeight + CellHeight / 2),
-                    this[x, y].Content == MazeObject.WALL || this[x, y].Content == MazeObject.GHOST_WALL
+                    PATH_OBSTACLES.Contains(this[x, y].Content)
                 );
             }
         }

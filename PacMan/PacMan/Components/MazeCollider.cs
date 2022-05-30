@@ -8,7 +8,7 @@ namespace PacMan.Components;
 
 public class MazeCollider : Collider
 {
-    protected static readonly ISet<MazeObject> OBSTACLES = new HashSet<MazeObject>() { MazeObject.WALL, MazeObject.GHOST_WALL };
+    protected static readonly ISet<MazeObject> OBSTACLES = new HashSet<MazeObject>() { MazeObject.WALL, MazeObject.GHOST_WALL, MazeObject.BARRIER };
     protected static readonly ISet<MazeObject> TRIGGERS = new HashSet<MazeObject>() { MazeObject.PELLET, MazeObject.POWER_PELLET };
 
     public Maze Maze => (Maze)GameObject;

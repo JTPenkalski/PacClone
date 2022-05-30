@@ -22,6 +22,8 @@ public class PathfindingGrid
         public override bool Equals(object? obj) => obj is Index index && Equals(index);
 
         public override int GetHashCode() => HashCode.Combine(X, Y);
+
+        public override string ToString() => $"X = {X}, Y = {Y}";
     }
 
     public int Width => Nodes.GetLength(0);
@@ -48,6 +50,19 @@ public class PathfindingGrid
     }
 
     public PathfindingNode this[int x, int y] => Nodes[x, y];
+
+    public void Reset()
+    {
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                Nodes[x, y].GCost = int.MaxValue;
+                Nodes[x, y].HCost = 0;
+                Nodes[x, y].Parent = null;
+            }
+        }
+    }
 
     public virtual int GetCost(Index a, Index b) => Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
 
