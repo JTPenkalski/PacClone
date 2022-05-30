@@ -11,11 +11,11 @@ public class Maze : GameObject
     public const int PELLET_VALUE = 100;
     public const int WIDTH = 28;
 
-    public int CellWidth => Width / WIDTH;
+    public int CellWidth => Size.Width / WIDTH;
 
-    public int CellHeight => Height / HEIGHT;
+    public int CellHeight => Size.Height / HEIGHT;
 
-    public MazeCell this[int x, int y] => new(x, y, (MazeObject)contents[x, y]);
+    public PathfindingGrid PathfindingGrid { get; protected set; }
 
     protected readonly int[,] contents;
     protected readonly MazeCollider collider;
@@ -24,6 +24,7 @@ public class Maze : GameObject
     public Maze() : base()
     {
         contents = new int[WIDTH, HEIGHT];
+        PathfindingGrid = new(WIDTH, HEIGHT);
         SetMaze("Maze01");
 
         renderer = AddComponent<MazeRenderer>();
@@ -33,9 +34,11 @@ public class Maze : GameObject
         GameManager.LevelChanged += SetMaze;
     }
 
-    protected override void InitLayout()
+    public MazeCell this[int x, int y] => new(x, y, (MazeObject)contents[x, y]);
+
+    public override void OnStart()
     {
-        base.InitLayout();
+        GeneratePathfindingGrid();
 
         rigidbody.Body.SetType(BodyType.Static);
         rigidbody.Collider = collider;
@@ -47,7 +50,7 @@ public class Maze : GameObject
         Invalidate(new Rectangle(cellX * CellWidth, cellY * CellHeight, CellWidth, CellHeight));
     }
 
-    public void SetMaze(string mazeName)
+    public virtual void SetMaze(string mazeName)
     {
         string[] values = File.ReadAllText($@"{Program.PROJECT_PATH}\Mazes\{mazeName}.txt").Split(',');
 
@@ -61,4 +64,26 @@ public class Maze : GameObject
     }
 
     public MazeCell GetMazeCell(int worldX, int worldY) => this[worldX / CellWidth, worldY / CellHeight];
+
+    public PathfindingNode GetPathfindingGridCell(int worldX, int worldY) => PathfindingGrid[worldX / CellWidth, worldY / CellHeight];
+
+    protected virtual void GeneratePathfindingGrid()
+    {
+        PathfindingNode[,] nodes = new PathfindingNode[WIDTH, HEIGHT];
+
+        for (int y = 0; y < HEIGHT; y++)
+        {
+            for (int x = 0; x < WIDTH; x++)
+            {
+                nodes[x, y] = new PathfindingNode
+                (
+                    new PathfindingGrid.Index(x, y),
+                    new Vector2(x * CellWidth + CellWidth / 2, y * CellHeight + CellHeight / 2),
+                    this[x, y].Content == MazeObject.WALL || this[x, y].Content == MazeObject.GHOST_WALL
+                );
+            }
+        }
+
+        PathfindingGrid.Nodes = nodes;
+    }
 }

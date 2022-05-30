@@ -22,15 +22,12 @@ public class Player : GameObject
         collider = AddComponent<CircleCollider>();
         keyboardController = AddComponent<KeyboardController>();
         animationAligner = AddComponent<AnimationAligner>();
+
+        renderer.Sprite = Resources.Pac01;
     }
 
-    protected override void InitLayout()
+    public override void OnStart()
     {
-        base.InitLayout();
-
-        if (renderer != null)
-            renderer.Sprite = Resources.Pac01;
-
         animator.AddAnimation(new Animation($@"{Program.PROJECT_PATH}\Animations\Player_Move.txt"), true);
 
         collider.Radius = 16;

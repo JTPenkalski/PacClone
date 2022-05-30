@@ -70,7 +70,7 @@ public class Animation
         return obj is Animation animation &&
                Loop == animation.Loop &&
                Duration == animation.Duration &&
-               (Name == animation.Name || Name == ANY_ANIMATION);
+               Name == animation.Name;
     }
 
     public override int GetHashCode() => HashCode.Combine(Loop, Duration, Name);

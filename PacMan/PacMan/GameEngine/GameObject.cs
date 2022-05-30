@@ -36,6 +36,10 @@ public class GameObject : Control, IEquatable<GameObject>
 
     public override bool Equals(object? obj) => Equals(obj as GameObject);
 
+    public virtual void OnStart() { }
+
+    public virtual void OnDestroy() { }
+
     public bool Equals(GameObject? other)
     {
         if (other is not null)
@@ -65,8 +69,7 @@ public class GameObject : Control, IEquatable<GameObject>
 
     protected override void OnPaint(PaintEventArgs e)
     {
-        renderer?.Render(this, e);
-
         base.OnPaint(e);
+        renderer?.Render(this, e);
     }
 }

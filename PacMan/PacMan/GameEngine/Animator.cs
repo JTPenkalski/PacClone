@@ -45,21 +45,9 @@ public class Animator : Component
                 GetNextKeyframe();
             }
 
-            if (transitions.ContainsKey(Animation))
-            {
-                // Check for transitions
-                foreach (string trigger in transitions[Animation].Keys)
-                {
-                    if (triggers[trigger])
-                    {
-                        triggers[trigger] = false;
-
-                        Animation = animations[transitions[Animation][trigger].Name];
-                        Keyframe = 0;
-                        GetNextKeyframe();
-                    }
-                }
-            }
+            // Check transitions, prioritizing the current animation over any
+            CheckTransitions(Animation.Any);
+            CheckTransitions(Animation);
 
             // Update per-frame data
             currentFrameCounter--;
@@ -118,6 +106,25 @@ public class Animator : Component
         }
 
         transitions[from].Add(trigger, to);
+    }
+
+    protected void CheckTransitions(Animation animation)
+    {
+        if (transitions.ContainsKey(animation))
+        {
+            // Check for animation-specific transitions
+            foreach (string trigger in transitions[animation].Keys)
+            {
+                if (triggers[trigger])
+                {
+                    triggers[trigger] = false;
+
+                    Animation = animations[transitions[animation][trigger].Name];
+                    Keyframe = 0;
+                    GetNextKeyframe();
+                }
+            }
+        }
     }
 
     protected void GetNextKeyframe()

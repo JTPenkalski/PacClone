@@ -48,6 +48,7 @@ public static class Game
 
     public static void Destroy(GameObject gameObject)
     {
+        gameObject.OnDestroy();
         gameObjects.Remove(gameObject.ID);
     }
 
@@ -62,6 +63,8 @@ public static class Game
 
     public static GameObject FindGameObject(string name) => gameObjects.Values.Where(g => g.Name == name).ElementAt(Index.Start);
 
+    public static T FindGameObjectOfType<T>() where T : GameObject => (T)gameObjects.Values.Where(g => g.GetType() == typeof(T)).ElementAt(Index.Start);
+
     private static void IdleTick(object? sender, EventArgs e)
     {
         while (!NativeMessageHandler.PeekMessage(out _, IntPtr.Zero, 0, 0, 0))
@@ -73,6 +76,10 @@ public static class Game
         if (!initialized)
         {
             initialized = true;
+
+            foreach (GameObject g in gameObjects.Values)
+                g.OnStart();
+
             Initialize?.Invoke();
         }
 

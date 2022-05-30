@@ -48,6 +48,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Libraries\box2d-netstandard\src\box2dx\Box2D.NetStandard\Box2D.NetStandard.csproj" />
   </ItemGroup>
 

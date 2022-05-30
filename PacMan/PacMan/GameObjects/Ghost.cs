@@ -1,7 +1,5 @@
 ﻿using Box2D.NetStandard.Dynamics.Bodies;
 using GameEngine;
-using PacMan.Components;
-using PacMan.Mazes;
 
 namespace PacMan.GameObjects;
 
@@ -10,6 +8,7 @@ public class Ghost : GameObject
     protected Maze maze;
     protected readonly Animator animator;
     protected readonly CircleCollider collider;
+    protected readonly PathfindingAgent pathfindingAgent;
     protected readonly Rigidbody rigidbody;
 
     public Ghost() : base()
@@ -18,15 +17,14 @@ public class Ghost : GameObject
         animator = AddComponent<Animator>();
         rigidbody = AddComponent<Rigidbody>();
         collider = AddComponent<CircleCollider>();
+        pathfindingAgent = AddComponent<PathfindingAgent>();
+
+        renderer.Sprite = Resources.RedGhost01;
+        maze = Game.FindGameObjectOfType<Maze>();
     }
 
-    protected override void InitLayout()
+    public override void OnStart()
     {
-        base.InitLayout();
-
-        if (renderer != null)
-            renderer.Sprite = Resources.RedGhost01;
-
         Animation right = new($@"{Program.PROJECT_PATH}\Animations\RedGhost_Right.txt");
         Animation left = new($@"{Program.PROJECT_PATH}\Animations\RedGhost_Left.txt");
         Animation up = new($@"{Program.PROJECT_PATH}\Animations\RedGhost_Up.txt");
@@ -49,14 +47,12 @@ public class Ghost : GameObject
 
         collider.Radius = 16;
 
-        rigidbody.Body.SetFixedRotation(true);
-        rigidbody.Body.SetGravityScale(0f);
-        rigidbody.Body.SetLinearDampling(0f);
-        rigidbody.Body.SetType(BodyType.Dynamic);
+        rigidbody.Body.SetType(BodyType.Kinematic);
         rigidbody.Collider = collider;
         rigidbody.TriggerEnter += Rigidbody_TriggerEnter;
 
-        maze = (Maze)Game.FindGameObject("Maze");
+        pathfindingAgent.Grid = maze.PathfindingGrid;
+        pathfindingAgent.Current = maze.GetPathfindingGridCell(Location.X + Size.Width / 2, Location.Y + Size.Height / 2);
     }
 
     protected virtual void Rigidbody_TriggerEnter(Collision collision)
